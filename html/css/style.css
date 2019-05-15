@@ -21,40 +21,37 @@
 }
 
 .co-one-checkout {
-  flex-grow: 1;
-  font-weight: bold;
+    flex-grow: 1;
+    font-weight: bold;
 }
 
 .co-one-breadcrumb {
-  flex-grow: 2;
+    flex-grow: 2;
 }
 
 .co-one-breadcrumb__PM {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 .co-two {
-    background-color:white;
+    background-color: white;
     display: flex;
-    border: 1px solid rgb(233, 227, 227);;
+    border: 1px solid rgb(233, 227, 227);
+    ;
     align-content: center;
     justify-content: center;
 }
 
 .co-two-payment {
-  flex-grow: 7;
-  padding: 5px;
+    flex-grow: 7;
+    padding: 5px;
 }
 
 .co-two-cart {
-  flex-grow: 3;
-  background-color: #EFEFF0;
-  padding: 5px;
+    flex-grow: 3;
+    background-color: #EFEFF0;
+    padding: 5px;
 }
-
-
-
-
 
 ul.breadcrumb {
     list-style: none;
