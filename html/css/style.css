@@ -1,0 +1,79 @@
+.co {
+    margin: 50px 50px 50px 50px;
+    background-color: #ffffff;
+    font-size: 17px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 10px 10px 5px grey;
+    align-content: center;
+    justify-content: center;
+
+}
+
+.co-one {
+    padding: 5px;
+    display: flex;
+    border: 1px solid rgb(233, 227, 227);
+    align-content: center;
+    justify-content: center;
+
+}
+
+.co-one-checkout {
+  flex-grow: 1;
+  font-weight: bold;
+}
+
+.co-one-breadcrumb {
+  flex-grow: 2;
+}
+
+.co-one-breadcrumb__PM {
+  font-weight: bold;
+}
+
+.co-two {
+    background-color:white;
+
+    display: flex;
+    border: 1px solid rgb(233, 227, 227);;
+    align-content: center;
+    justify-content: center;
+}
+
+.co-two-payment {
+  flex-grow: 7;
+  padding: 5px;
+}
+
+
+
+.co-two-cart {
+  flex-grow: 3; background-color: #EFEFF0;
+  padding: 5px;
+}
+ul.breadcrumb {
+    list-style: none;
+
+}
+
+ul.breadcrumb li {
+    display: inline;
+    font-size: 17px;
+}
+
+ul.breadcrumb li+li:before {
+    padding: 5px;
+    color: black;
+    content: "/\00a0";
+}
+
+ul.breadcrumb li a {
+    color: black;
+    text-decoration: none;
+}
+
+ul.breadcrumb li a:focus {
+    color: blue;
+    text-decoration: underline;
+}
