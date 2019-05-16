@@ -8,6 +8,7 @@
 </head>
 
 <body>
+<div class="container">
   <div class="co">
 
     <div class="co-one">
@@ -26,19 +27,76 @@
     </div>
 
     <div class="co-two">
-      <div class="co-two-payment">Payment Block</div>
+      <div class="co-two-payment">
+          <div style="flex:column;"> Wallet
+            <hr style="border-width:0.5">
+          </div>
+
+        <div class="co-two-payment-wallet">
+
+            <div class="co-images">
+
+                <div class="co-images_p">
+                  <img src="images/cards/discover.png" width="90%" height="80%"/>
+                </div>
+                <div> <img src="images/cards/mastercard.png" width="90%" height="80%" /> </div>
+                <div> <img src="images/cards/visa.png" width="90%" height="80%"/> </div>
+              </div>
+        </div>
+
+
+
+        <div class="co-two-payment-nc">
+          <div> New Card</div>
+          <hr class="co-hr"/>
+        <div class="co-two-form">
+
+        </div>
+
+        <form>
+            <ul class="wrapper">
+              <li class="form-row">
+                  <input type = "text" placeholder = "Name on card" />
+              </li>
+              <li class="form-row">
+                  <input type = "text" placeholder= "xxxx-xxxx-xxxx-xxxx" />
+              </li>
+              <li class="form-row">
+                  <input type = "text" placeholder= "MM/YY" id="mm"/>
+                  <input type = "text" placeholder= "CVV" id="cvv"/>
+              </li>
+
+                <button type="submit">Submit</button>
+
+            </ul>
+          </form>
+
+
+        </div>
+        <hr class="co-hr">
+
+
+
+      </div>
+
+
+
+
+
+
+
+
+
+
+
       <div class="co-two-cart">Cart Block</div>
     </div>
   </div>
 
 
-  <br />
-  <br />
-  <br />
-  <br />
-  <br />
-  </div>
 
+  </div>
+</div>
 </body>
 
 </html>
