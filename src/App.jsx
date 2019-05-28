@@ -1,15 +1,5 @@
-import React from 'react';
+import TextFieldDemo from "./pages/TextFieldDemo/TextFieldDemo";
 
-import './App.css';
-
-class App extends React.Component {
-  render(){
-    return(
-      <div>
-        <h3> Hello !</h3>
-      </div>
-    )
-  }
-}
+const App = () => TextFieldDemo();
 
 export default App;
