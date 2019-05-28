@@ -1,79 +1,119 @@
 <!DOCTYPE html>
-<html>
+
+<html lang="en">
+
+
 
 <head>
-  <link rel="stylesheet" href="http://yui.yahooapis.com/3.18.1/build/cssreset/cssreset-min.css" />
-  <link rel="stylesheet" href="/html/css/style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+  <title>Document</title>
+
+  <link rel="stylesheet" title="including_css" href="http://yui.yahooapis.com/3.18.1/build/cssreset/cssreset-min.css" />
+
+  <link rel=" stylesheet" type="text/css" href="./css/style.css" />
+
+  <link rel=" stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
 </head>
 
-<body>
-<div class="container">
-  <div class="co">
 
-    <div class="co-one">
-      <div class="co-one-checkout">Checkout</div>
-      <div class="co-one-breadcrumb">
+
+<body>
+
+  <div class="container">
+
+    <div class="co__header">
+
+      <div class="co--checkout">checkout</div>
+
+
+
+      <div class="co--breadcrumb">
+
         <ul class="breadcrumb">
-          <li><a href="#">Shipping</a></li>
-          <li class="co-one-breadcrumb__PM"><a href="#">Payment Method</a></li>
-          <li><a href="#">confirmation</a></li>
+
+          <li>Shipping</li>
+
+          <li class="breadcrumb--PM">Payment Method</li>
+
+          <li>Confirmation</li>
+
         </ul>
+
       </div>
+
+
+
       <div>
+
         <i class="fa fa-window-close" aria-hidden="true"></i>
+
       </div>
 
     </div>
 
-    <div class="co-two">
-      <div class="co-two-payment">
-          <div style="flex:column;"> Wallet
-            <hr style="border-width:0.5">
-          </div>
 
-        <div class="co-two-payment-wallet">
 
-            <div class="co-images">
+    <div class="co__body">
 
-                <div class="co-images_p">
-                  <img src="images/cards/discover.png" width="90%" height="80%"/>
-                </div>
-                <div> <img src="images/cards/mastercard.png" width="90%" height="80%" /> </div>
-                <div> <img src="images/cards/visa.png" width="90%" height="80%"/> </div>
-              </div>
+      <div class="co--details">
+
+        <div class="co--wallet">
+
+          <h4>Wallet</h4>
+
+        </div>
+
+        <div class="co--images">
+
+          <div><img class="images--discover" src="images/cards/discover.png"></div>
+
+          <div><img class="images--masterCard" src="images/cards/mastercard.png"></div>
+
+          <div><img class="images--visa" src="images/cards/visa.png"></div>
+
+        </div>
+
+        <div class="co--NewCard">
+
+          <h4>New Card</h4>
+
         </div>
 
 
 
-        <div class="co-two-payment-nc">
-          <div> New Card</div>
-          <hr class="co-hr"/>
-        <div class="co-two-form">
+        <div class="co--cardContainer">
 
-        </div>
 
-        <form>
-            <ul class="wrapper">
-              <li class="form-row">
-                  <input type = "text" placeholder = "Name on card" />
-              </li>
-              <li class="form-row">
-                  <input type = "text" placeholder= "xxxx-xxxx-xxxx-xxxx" />
-              </li>
-              <li class="form-row">
-                  <input type = "text" placeholder= "MM/YY" id="mm"/>
-                  <input type = "text" placeholder= "CVV" id="cvv"/>
-              </li>
 
-                <button type="submit">Submit</button>
+          <form class="co--creditCard">
 
-            </ul>
+            <div class="name"><input type="text" placeholder="Name on card"></div>
+
+            <div class="cardNo"><input type="text" placeholder="XXXX-XXXX-XXXX-XXXX"></div>
+
+            <div class="details">
+
+              <div><input placeholder="MM/YY"></div>
+
+              <div><input placeholder="CVV"></div>
+
+            </div>
+
+            <div><button type="button" class="continue">CONTINUE</button></div>
+
           </form>
 
-
         </div>
-        <hr class="co-hr">
+
+
 
 
 
@@ -81,22 +121,180 @@
 
 
 
+      <div class="co--items">
+
+        <div class="co--itemDetails">
+
+          <div class="c-item">
+
+            <div class="c-item__img">
+
+              <img src="/html/images/products/mobile-holder.jpg" alt="Discover Card" width="70%" />
+
+            </div>
+
+            <div class="c-item__details">
+
+              <p class="font-bold">Mobile Holder</p>
+
+              <p class="sub-heading font-italic font-small" style="padding-top: 5px;">Black</p>
+
+              <p class="sub-heading font-bold font-small">Quantity : 1</p>
+
+            </div>
+
+            <div class="c-item__total">
+
+              <p class="font-bold">$ 10.00</p>
+
+            </div>
+
+          </div>
+
+          <div class="c-item">
+
+            <div class="c-item__img">
+
+              <img src="/html/images/products/rado.jpg" alt="Discover Card" width="70%" />
+
+            </div>
+
+            <div class="c-item__details">
+
+              <p class="font-bold">Mobile Holder</p>
+
+              <p class="sub-heading font-italic font-small" style="padding-top: 5px;">Black</p>
+
+              <p class="sub-heading font-bold font-small">Quantity : 1</p>
+
+            </div>
+
+            <div class="c-item__total">
+
+              <p class="font-bold">$ 10.00</p>
+
+            </div>
+
+          </div>
+
+
+
+          <div class="c-item">
+
+            <div class="c-item__img">
+
+              <img src="/html/images/products/usb-c-2-micro.jpeg" alt="Discover Card" width="70%" />
+
+            </div>
+
+            <div class="c-item__details">
+
+              <p class="font-bold">Mobile Holder</p>
+
+              <p class="sub-heading font-italic font-small" style="padding-top: 5px;">Black</p>
+
+              <p class="sub-heading font-bold font-small">Quantity : 1</p>
+
+            </div>
+
+            <div class="c-item__total">
+
+              <p class="font-bold">$ 10.00</p>
+
+            </div>
+
+          </div>
+
+          <div class="c-item">
+
+            <div class="c-item__img">
+
+              <img src="/html/images/products/hard-case.jpg" alt="Discover Card" width="70%" />
+
+            </div>
+
+            <div class="c-item__details">
+
+              <p class="font-bold">Mobile Holder</p>
+
+              <p class="sub-heading font-italic font-small" style="padding-top: 5px;">Black</p>
+
+              <p class="sub-heading font-bold font-small">Quantity : 1</p>
+
+            </div>
+
+            <div class="c-item__total">
+
+              <p class="font-bold">$ 10.00</p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="co--total">
+
+          <div class="pricing__calc">
+
+            <div class="pricing__calc-type">
+
+              <p class="sub-heading font-med">Sub Total</p>
+
+              <p class="sub-heading font-med">Shipping</p>
+
+              <p class="sub-heading font-med">Taxes</p>
+
+            </div>
+
+            <div class="pricing__calc-rate">
+
+              <p class="font-bold font-med">$ 100.00</p>
+
+              <p class="font-bold font-med">$ 10.00</p>
+
+              <p class="font-bold font-med">$ 5.00</p>
+
+            </div>
+
+          </div>
+
+          <div class="pricing__total">
+
+            <div class="pricing__calc-type">
+
+              <p class="font-bold font-med">Total</p>
+
+            </div>
+
+            <div class="pricing__calc-rate">
+
+              <p class="font-med font-bold">$ 115.00</p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
 
 
 
 
 
+      <div>
 
+        <br />
 
+        <br />
 
-      <div class="co-two-cart">Cart Block</div>
+      </div>
+
     </div>
-  </div>
 
-
-
-  </div>
-</div>
 </body>
+
+
 
 </html>
