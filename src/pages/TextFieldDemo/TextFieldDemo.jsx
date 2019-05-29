@@ -6,23 +6,21 @@ const TextFieldDemo = () => (
   <div
     style={{
       border: "1px solid ",
-      margin: "40px 40px",
+      margin: "100px 100px",
       padding: "5px 5px"
     }}
   >
     <h4>This is Disabled Input</h4>
-
-    <InputBox value="disable" disabled />
+    <InputBox value="Disable Input" disabled />
 
     <h4>A valid box</h4>
-
-    <InputBox value="accessible" />
+    <InputBox value="Accessible" />
 
     <h4>input with an error</h4>
-
     <InputBox value="101" error="101" />
-
     <p style={{ color: "red" }}>could not be greater than</p>
+
+
   </div>
 );
 

@@ -3,11 +3,8 @@ export const border = {
 };
 
 export const input = {
-  width: "100%",
-
-  padding: "8px 0px 8px",
-
+  width: "99%",
+  padding: "4px 1px 4px 4px",
   borderSizing: "border-box",
-
   borderRadius: "2px"
 };
