@@ -1,5 +1,7 @@
-import TextFieldDemo from "./pages/TextFieldDemo/TextFieldDemo";
+import React from 'react'
 
-const App = () => TextFieldDemo();
+import InputDemo from "./pages/InputFieldDemo/InputDemo";
 
+const App = () =>
+<InputDemo />
 export default App;

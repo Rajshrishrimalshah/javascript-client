@@ -5,7 +5,7 @@ import * as style from "./style";
 export const InputBox = props => {
   console.log(props);
 
-  const { value, error, disabled } = props;
+  const { error, ...rest } = props;
   const { border, input } = style;
   const err = { ...border, ...input };
   const errorStyle = error ? err : input;
@@ -13,7 +13,6 @@ export const InputBox = props => {
 
 
   return (
-    <input type="text" style={errorStyle} defaultValue={value} disabled={disabled}
-    />
+    <input type="text" style={errorStyle} {...rest} />
   );
 };
