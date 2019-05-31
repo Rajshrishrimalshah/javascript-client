@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { input } from "./style";
+import PropTypes from "prop-types";
 
 class SelectBox extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sports: props.sports
+      option: props.sports
     };
   }
 
@@ -17,7 +18,7 @@ class SelectBox extends Component {
     const{ sports, onChange }= this.props;
 
     const sportList = sports.map(name => {
-      return <option value={name}>{name}</option>
+      return <option key={name.value}>{name.label}</option>
 
     })
 
@@ -29,5 +30,21 @@ class SelectBox extends Component {
   }
 }
 
+
+SelectBox.defaultProps = {
+  error: "",
+  options: [ {value:"", label:"Select"} ]
+}
+
+SelectBox.propTypes = {
+  error: PropTypes.string,
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+
+  options: PropTypes.shape({
+    label: PropTypes.string,
+    value: PropTypes.string,
+  }).isRequired
+}
 
 export default SelectBox;

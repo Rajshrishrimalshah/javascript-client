@@ -8,6 +8,7 @@ import {
 } from "../../configs/constant";
 import RadioButton from "../../components/Radio/Radio";
 
+
 class InputDemo extends React.Component {
   constructor(props) {
     super(props);
@@ -65,4 +66,6 @@ class InputDemo extends React.Component {
     );
   }
 }
+
+
 export default InputDemo;
