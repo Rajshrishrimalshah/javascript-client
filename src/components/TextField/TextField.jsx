@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import * as style from "./style";
 
 export const InputBox = props => {
-  console.log(props);
 
   const { error, ...rest } = props;
   const { border, input } = style;
@@ -14,7 +13,10 @@ export const InputBox = props => {
 
 
   return (
+  <>
     <input type="text" style={errorStyle} {...rest} />
+    <span style={{ color: "red"}}> {error}</span>
+  </>
   );
 };
 

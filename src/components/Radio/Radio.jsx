@@ -15,17 +15,20 @@ class Radio extends Component {
   }
 
   render() {
-    console.log(this.props.player)
-
-    const { options, onChange, name, value } = this.props;
-    console.log(value);
+    const { options, onChange, name, error, ...rest } = this.props;
     const radioOptions = options.map(({ label, value}) => (
+    <>
       <React.Fragment key={value} >
-        <input type="radio" value={value} name={name} onChange={onChange} />
+        <input type="radio" value={value} name={name} onChange={onChange} {...rest}/>
         {label}
         <br />
       </React.Fragment>
+      <>
+      <span style={{ color: "red"}}> {error}</span>
+      </>
+    </>
     ));
+
   return radioOptions;
 }
 }
