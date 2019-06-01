@@ -1,30 +1,24 @@
-import React, { Component } from 'react'
-import  buttonStyles  from './style';
+import React, { Component } from "react";
+import * as buttonStyles from "./style";
 
 class Button extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      color: props.color,
-      disable: props.disable,
-      style: props.style,
-      value: props.value,
-      onChange: props.onChange
-    };
-  }
 
-  clickHandler = () =>  {
-    console.log("Button Clicked ")
-  }
+  clickHandler = () => {
+    console.log("Button Clicked ");
+  };
 
-render() {
-  const {button}=buttonStyles;
-  return (
-    <div>
-        <input type="button"  disabled={this.state.disable} value={this.state.value} style={button} />
-    </div>
-  );
-}
+  render() {
+    const { input, submitStyle } = buttonStyles;
+    const { disabled, value, ...rest } = this.props;
+    const buttonStyle = disabled ? input : submitStyle;
+    return (
+      <div>
+
+      <button disabled={disabled} style={submitStyle} {...rest}> {value} </button>
+
+      </div>
+    );
+  }
 }
 
 export default Button;
