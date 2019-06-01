@@ -15,16 +15,16 @@ class SelectBox extends Component {
   }
 
   render() {
-    const{ sports, onChange, error, name , ...rest }= this.props;
+    const{ sports, onChange, error, name , onBlur, ...rest }= this.props;
 
     const sportList = sports.map(name => {
-      return <option key={name.value}>{name.label}</option>
+      return <option value={name.value}>{name.label}</option>
 
     })
 
     return (
       <>
-      <select onChange={onChange} style={input} name={name} {...rest}>
+      <select onChange={onChange} style={input} onBlur={onBlur}  {...rest}>
         {sportList}
       </select>
       <span style={{ color: "red"}}> {error}</span>

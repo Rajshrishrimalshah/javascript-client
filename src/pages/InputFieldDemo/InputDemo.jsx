@@ -33,12 +33,12 @@ class InputDemo extends React.Component {
   handleFootballChange = (event) => {
     this.setState({Football: event.target.value});
   }
-
-  blurHandler = (event) => {
-    console.log('blur', event.target.name)
+0
+  blurHandler = (event) => () => {
+    console.log('blur',)
     const { isTouch } = this.state;
-    if(!isTouch.includes(event.target.name)) {
-      isTouch.push(event.target.name);
+    if(!isTouch.includes(event)) {
+      isTouch.push(event);
     }
     this.setState({
       isTouch
@@ -52,6 +52,9 @@ class InputDemo extends React.Component {
     const valid = validationSchema.validate({ name, sports , radio}, {abortEarly: false})
     .then((success) => {
       console.log(success, valid);
+      this.setState({
+        errors: {}
+      })
     }).catch((error) => {
       error.inner.forEach(key => {
         if(!ErrorObj[key.path]) {
@@ -71,7 +74,7 @@ class InputDemo extends React.Component {
     display: "flex",
     flexDirection: "row",
     justifyContent: "flex-end",
-    margin: "20px"
+    margin: "20"
   }
 
   hasErrors = (value) => {
@@ -81,7 +84,7 @@ class InputDemo extends React.Component {
 
   isTouched = (value) => {
     const { isTouch } = this.state;
-    return isTouch.include(value);
+    return isTouch.includes(value);
   }
 
   getError = (value) => {
@@ -98,7 +101,7 @@ class InputDemo extends React.Component {
       return null;
     }
 
-    if (sports === "Cricket") {
+    if (sports === "cricket") {
       return (
       <>
       <h4> What you do ?</h4>
@@ -107,7 +110,7 @@ class InputDemo extends React.Component {
       );
     }
 
-    if (sports === "Football") {
+    if (sports === "football") {
       return (
     <>
     <h4> What you do ?</h4>
@@ -123,12 +126,12 @@ class InputDemo extends React.Component {
       <>
         <div>
           <h4> Name: </h4>
-          <InputBox value={this.state.name} name="name" onChange={this.handleChange} error={this.hasErrors('name')} onBlur={this.blurHandler}/>
+          <InputBox value={this.state.name} name="name" onChange={this.handleChange} error={this.getError('name')} onBlur={this.blurHandler('name')}/>
         </div>
 
         <div>
           <h4> Select the game you play? </h4>
-          <SelectBox name="sports" sports={SPORTS} onChange={this.handleSportsChange} error={this.hasErrors('sports')} onBlur={this.blurHandler}/>
+          <SelectBox name="sports" sports={SPORTS} onChange={this.handleSportsChange} error={this.getError('sports')} onBlur={this.blurHandler('sports')}/>
         </div>
 
         <div style={this.container }>

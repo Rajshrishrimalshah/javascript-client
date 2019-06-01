@@ -4,9 +4,9 @@ export const banner=['banners/cloud.jpg','banners/dns-server.png',
 'banners/full-stack-web-development.jpg','banners/js.jpg','banners/load-balancer.png'];
 
 export const SPORTS = [
-  { label: 'Select', value: 'select1' },
-  { label: 'Cricket', value: 'cricket1' },
-  { label: 'Football', value: 'football1' }
+  { label: 'Select', value: '' },
+  { label: 'Cricket', value: 'cricket' },
+  { label: 'Football', value: 'football' }
 ];
 export const CRICKET_PLAYER = [
   { label: 'Batsman', value: 'batsman' },
