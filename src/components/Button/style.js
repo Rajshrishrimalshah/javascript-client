@@ -3,15 +3,29 @@ export default  {
   marginLeft: 5,
   fontSize: 20
   },
+
   submitStyle :{
-      backgroundColor: "#4CAF50",
-      border: "none",
-      color: "white",
+      backgroundColor: "green",
+      border: "1 solid black",
+      color: "black",
       padding: 15,
       textAlign: "center",
       display: "inline-block",
-      fontSize:16,
+      fontSize: 16,
       margin: 4,
       cursor: "pointer"
+    },
+
+    plainStyle :{
+      backgroundColor: "white",
+      border: "1 solid black",
+      color: "black",
+      padding: 15,
+      textAlign: "center",
+      display: "inline-block",
+      fontSize: 16,
+      margin: 4,
+      cursor: "pointer"
+    }
   }
-}
+

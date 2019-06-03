@@ -19,7 +19,8 @@ class InputDemo extends React.Component {
       Cricket: "",
       Football: "",
       errors: {},
-      isTouch: []
+      isTouch: [],
+      button: true,
     };
   }
 
@@ -59,7 +60,8 @@ class InputDemo extends React.Component {
       .validate({ name, sports }, { abortEarly: false })
       .then(success => {
         this.setState({
-          errors: {}
+          errors: {},
+          button: false
         });
       })
       .catch(error => {
@@ -69,7 +71,8 @@ class InputDemo extends React.Component {
           }
         });
         this.setState({
-          errors: ErrorObj
+          errors: ErrorObj,
+          button: true,
         });
       });
   };
@@ -138,9 +141,7 @@ class InputDemo extends React.Component {
 
   render() {
     console.log(this.state);
-    const { name, sports, Cricket, Football  } = this.state;
-    const isEnabled = ((name.length > 0 && sports.length > 0)
-                      || (Cricket.length > 0) || (Football.length > 0))  ;
+    const { button  } = this.state;
 
     return (
       <>
@@ -178,7 +179,7 @@ class InputDemo extends React.Component {
 
           <Button
             color="green"
-            disabled={!isEnabled}
+            disabled={button}
             style={{ margin: "5px" }}
             value="Submit"
             onclick={this.handleSubmitChange}

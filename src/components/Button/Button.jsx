@@ -1,20 +1,27 @@
 import React, { Component } from "react";
-import * as buttonStyles from "./style";
-
+import ButtonStyle from "./style"
 class Button extends Component {
 
-  clickHandler = () => {
-    console.log("Button Clicked ");
+  container = {
+    backgroundColor: "green",
+    border: "1 solid black",
+    color: "black",
+    padding: 15,
+    textAlign: "center",
+    display: "inline-block",
+    fontSize: 16,
+    margin: 4,
+    cursor: "pointer"
   };
 
   render() {
-    const { input, submitStyle } = buttonStyles;
-    const { disabled, value, ...rest } = this.props;
-    const buttonStyle = disabled ? input : submitStyle;
+    const { disabled, value, style, ...rest } = this.props;
+    const { submitStyle, plainStyle } = ButtonStyle;
+    const buttonStyle = disabled ? plainStyle : submitStyle ;
     return (
       <div>
 
-      <button disabled={disabled} style={submitStyle} {...rest}> {value} </button>
+      <button disabled={disabled} style={buttonStyle} {...rest}> {value} </button>
 
       </div>
     );
