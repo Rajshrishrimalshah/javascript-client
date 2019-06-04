@@ -1,6 +1,7 @@
 import React, { Component} from "react";
 import Button from "@material-ui/core/Button";
 import AddDialog from "../Trainee/components/AddDialog/AddDialog";
+import Form from "../Trainee/Form"
 
 class Trainee extends Component {
   constructor(props) {
@@ -38,7 +39,10 @@ class Trainee extends Component {
     <Button variant="outlined" color="primary" onClick={this.handleClick}>
       Add Trainee
     </Button>
-  <AddDialog openProp={open} clickHandler={this.handleClick} handlerFromParent={this.handleDataParent}/>
+  <AddDialog openProp={open} clickHandler={this.handleClick} handlerFromParent={this.handleDataParent}>
+    <Form />
+  </AddDialog>
+
   </>
   )
 }
