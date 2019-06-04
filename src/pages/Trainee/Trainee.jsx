@@ -1,93 +1,47 @@
-import React from "react";
+import React, { Component} from "react";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
+import AddDialog from "../Trainee/components/AddDialog/AddDialog";
 
-function FormDialog() {
-  const [open, setOpen] = React.useState(false);
-
-  function handleClickOpen() {
-    setOpen(true);
+class Trainee extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+      name:"",
+      email:"",
+      password:"",
+      showPassword: false,
+    };
   }
 
-  function handleClose() {
-    setOpen(false);
+  handleClick = () => {
+    const { open } = this.state;
+    this.setState({
+        open: open ? false : true
+      })
   }
 
-  return (
-    <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Add Trainee
-      </Button>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog-title">Add Trainee</DialogTitle>
+  handleDataParent = (name, email, password) => {
+    this.setState({
+        name,
+        email,
+        password
+      })
+      console.log(this.state);
+  }
 
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-          <DialogContent>
-        <DialogContentText>
-          Enter your trainee details
-        </DialogContentText>
+  render() {
+    const { open,showPassword } = this.state;
 
-        <TextField
-        required
-        id="outlined-required"
-        label="Name"
-        defaultValue=""
-        margin="normal"
-        variant="outlined"
-      />
-
-        </DialogContent>
-          </Grid>
-          <Grid item xs={12}>
-          <TextField
-        required
-        id="outlined-required"
-        label="Email"
-        defaultValue=""
-        margin="normal"
-        variant="outlined"
-      />
-          </Grid>
-          <Grid item xs={6}>
-            <Paper >xs=6</Paper>
-          </Grid>
-          <Grid item xs={3}>
-            <Paper>xs=3</Paper>
-          </Grid>
-          <Grid item xs={3}>
-            <Paper >xs=3</Paper>
-          </Grid>
-          <Grid item xs={3}>
-            <Paper >xs=3</Paper>
-          </Grid>
-          <Grid item xs={3}>
-            <Paper>xs=3</Paper>
-          </Grid>
-        </Grid>
-
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleClose} color="primary">
-            Subscribe
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
-  );
+    return (
+    <>
+    <Button variant="outlined" color="primary" onClick={this.handleClick}>
+      Add Trainee
+    </Button>
+  <AddDialog openProp={open} clickHandler={this.handleClick} handlerFromParent={this.handleDataParent}/>
+  </>
+  )
+}
 }
 
-export default FormDialog;
+export default Trainee;
