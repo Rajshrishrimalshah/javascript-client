@@ -29,7 +29,8 @@ class Trainee extends Component {
     user["email"] = email;
     user["password"] = password;
     this.setState({
-      open: open ? false : true
+      open: open ? false : true,
+      user
     });
 
     console.log(this.state.user);
