@@ -10,6 +10,8 @@ import Login from "./pages/Login";
 
 const App = () =>
     <MuiThemeProvider theme={theme}>
+      <ButtonAppBar />
+      <br/>
       <Trainee />
     </MuiThemeProvider>
   //<ChildrenDemo />
