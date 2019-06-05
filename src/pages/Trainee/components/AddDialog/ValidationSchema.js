@@ -12,11 +12,13 @@ import * as yup from "yup";
   password: yup
     .string()
     .required("Password is required field")
+    .matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/, 'must include at least one upper case letter, one lower case letter, and one numeric digit')
     .min(8),
   confirm_password: yup
     .string()
     .required("Password is required field")
-    .min(8),
+    .min(8)
+    .oneOf([yup.ref('password'), null], 'Passwords must match')
 });
 
 export default validationSchema;

@@ -26,20 +26,8 @@ class Form extends Component {
     };
   }
 
-  handleNameChange = event => {
-    this.setState({ name: event.target.value }, this.handleValidator);
-  };
-
-  handleEmailChange = event => {
-    this.setState({ email: event.target.value }, this.handleValidator);
-  };
-
-  handlePasswordChange = event => {
-    this.setState({ password: event.target.value }, this.handleValidator);
-  };
-
-  handleConfirmPasswordChange = event => {
-    this.setState({ confirm_password: event.target.value }, this.handleValidator);
+  handleFieldChange = event => {
+    this.setState({ [event.target.name]: event.target.value }, this.handleValidator);
   };
 
   handleClickShowPassword = () => {
@@ -118,21 +106,33 @@ class Form extends Component {
     );
   };
 
+
+
 render() {
-  const { showPassword } = this.state;
+  const { name, email, password, showPassword, button } = this.state;
+  const { handlerFromParent, clickHandler } = this.props;
+  const style = {
+    margin: 12,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+  };
+
   return (
-       <Paper>
+    <>
+      <Paper  style={style}>
       <Grid container spacing={3}>
             <Grid item xs={12}>
                 <TextField
                   required
+                  name="name"
                   id="outlined-required"
                   label="Name"
                   defaultValue=""
                   margin="normal"
                   variant="outlined"
                   fullWidth
-                  onChange={this.handleNameChange}
+                  onChange={this.handleFieldChange}
                   error={this.getError("name")}
                   onBlur={this.blurHandler("name")}
                   helperText={this.getError("name")}
@@ -149,13 +149,14 @@ render() {
             <Grid item xs={12}>
                 <TextField
                   required
+                  name="email"
                   id="outlined-required"
                   label="Email Address"
                   defaultValue=""
                   margin="normal"
                   variant="outlined"
                   fullWidth
-                  onChange={this.handleEmailChange}
+                  onChange={this.handleFieldChange}
                   error={this.getErrorBool("email")}
                   onBlur={this.blurHandler("email")}
                   helperText={this.getError("email")}
@@ -173,11 +174,12 @@ render() {
             <Grid item xs={6}>
 
                 <TextField
+                  name="password"
                   id="outlined-adornment-password"
                   variant="outlined"
                   type={showPassword ? 'text' : 'password'}
                   label="Password"
-                  onChange={this.handlePasswordChange}
+                  onChange={this.handleFieldChange}
                   error={this.getErrorBool("password")}
                   onBlur={this.blurHandler("password")}
                   helperText={this.getError("password")}
@@ -202,7 +204,8 @@ render() {
                   variant="outlined"
                   type={showPassword ? 'text' : 'password'}
                   label="Confirm Password"
-                  onChange={this.handleConfirmPasswordChange}
+                  name="confirm_password"
+                  onChange={this.handleFieldChange}
                   error={this.getErrorBool("confirm_password")}
                   onBlur={this.blurHandler("confirm_password")}
                   helperText={this.getError("confirm_password") || this.passwordValidation}
@@ -222,6 +225,16 @@ render() {
             </Grid>
             </Grid>
             </Paper>
+
+          <div style={style}>
+            <Button  color="primary" onClick={clickHandler} >
+              Cancel
+            </Button>
+            <Button  color="primary" disabled={button} onClick={handlerFromParent(name, email, password)}  >
+              Submit
+            </Button>
+          </div>
+    </>
 );
 }
 }
