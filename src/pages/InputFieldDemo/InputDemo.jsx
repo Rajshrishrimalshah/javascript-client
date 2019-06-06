@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import { InputBox } from "../../components/TextField/TextField";
 import SelectBox from "../../components/SelectBox/SelectBox";
