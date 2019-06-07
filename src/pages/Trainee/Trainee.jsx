@@ -4,7 +4,7 @@ import AddDialog from "../Trainee/components/AddDialog/AddDialog";
 import Form from "../Trainee/Form";
 import { Switch, Route } from 'react-router-dom';
 import TraineeList from "./TraineeList";
-import { TraineeDetails } from "./TraineeDetail";
+import TraineeDetails  from "./TraineeDetail";
 
 class Trainee extends Component {
   constructor(props) {
@@ -42,7 +42,6 @@ class Trainee extends Component {
 
   render() {
     const { open } = this.state;
-    console.log(this.props);
     const { match } = this.props;
     return (
       <Switch>

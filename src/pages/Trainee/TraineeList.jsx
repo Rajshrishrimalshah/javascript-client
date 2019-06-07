@@ -2,10 +2,8 @@ import AddDialog from "../Trainee/components/AddDialog/AddDialog";
 import Button from "@material-ui/core/Button";
 import Form from "../Trainee/Form";
 import trainees from "./data/trainee"
-import { TraineeDetails }  from "./TraineeDetail"
 import React, { Component } from "react";
-import { Router } from "react-router-dom";
-import { BrowserRouter, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 class TraineeList extends Component {
   constructor(props) {
@@ -43,6 +41,8 @@ class TraineeList extends Component {
 
   render() {
     const { open } = this.state;
+    const { match } = this.props;
+    // console.log(match);
 
     return (
       <>
@@ -52,6 +52,14 @@ class TraineeList extends Component {
       <AddDialog openProp={open} clickHandler={this.handleClick}>
         <Form handlerFromParent={this.handleDataParent} clickHandler={this.handleClick} />
       </AddDialog>
+
+      <ul>
+          {trainees.map(({ id, name }) =>
+          <li key={id}>
+            <Link to={`${match.url}/${id}`}> {name} </Link>
+          </li>
+          )}
+      </ul>
     </>
     );
   }
