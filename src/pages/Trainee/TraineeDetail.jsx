@@ -1,11 +1,12 @@
+import Button from '@material-ui/core/Button';
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-import React, { Component } from "react"
-import { Redirect, Route } from 'react-router-dom';
+import { Link } from "react-router-dom"
+import moment from 'moment';
+import React, { Component } from "react";
 import trainees from "./data/trainee";
 import Typography from "@material-ui/core/Typography";
-import NoMatch from "../NoMatch";
 import { withStyles } from "@material-ui/core/styles";
 
 
@@ -32,6 +33,13 @@ const style = theme => ({
     paddingLeft: theme.spacing(1),
     paddingBottom: theme.spacing(1)
   },
+  button: {
+    margin: theme.spacing(1),
+    alignItems: "center"
+  },
+  wrapper: {
+    textAlign: "center"
+  }
 });
 class TraineeDetails extends Component {
 
@@ -40,16 +48,24 @@ class TraineeDetails extends Component {
     if(id)
       return trainees.filter( trainee  => id === trainee.id )
     else
-      //return <Redirect to='/' />
-      return <Route component={NoMatch} />
+    return () => {
+      return (
+        <div style={{ textAlign: 'center'}}>
+          <h1> Page Not Found</h1>
+          <h3> You seems to be on wrong page ! </h3>
+        </div>
+      );
+    };
   }
 
+  printDateFormat = (date) => {
+    return moment(date).format('dddd, MMMM Do YYYY, h:mm:ss a')
+  }
 
   render() {
     const { classes } = this.props;
     const { id } = this.props.match.params
     const details = this.validateUser(id);
-    console.log(details[0]);
 
     return(
       <div>
@@ -66,17 +82,24 @@ class TraineeDetails extends Component {
                     {details[0].name}
                 </Typography>
                 <Typography variant="subtitle1" color="textSecondary">
-                    Mac Miller
+                    {this.printDateFormat(details[0].createdAt)}
                 </Typography>
                 <Typography component="h6" variant="subtitle1">
-                    <br />
                     {details[0].email}
                 </Typography>
             </CardContent>
       </div>
-
-
         </Card>
+
+        <div className={classes.wrapper}>
+            <br />
+            <Link to="/trainee">
+            <Button variant="contained" component="span" className={classes.button}>
+                Back
+            </Button>
+            </Link>
+        </div>
+
       </div>
     );
   }

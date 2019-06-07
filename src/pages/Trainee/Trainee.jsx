@@ -49,14 +49,6 @@ class Trainee extends Component {
         <Route exact path={`${match.url}/:id`} component={TraineeDetails} />
       </Switch>
 
-      // <>
-      //   <Button variant="outlined" color="primary" onClick={this.handleClick}>
-      //     Add Trainee
-      //   </Button>
-      //   <AddDialog openProp={open} clickHandler={this.handleClick}>
-      //     <Form handlerFromParent={this.handleDataParent} clickHandler={this.handleClick} />
-      //   </AddDialog>
-      // </>
     );
   }
 }

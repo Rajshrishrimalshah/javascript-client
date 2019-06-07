@@ -16,15 +16,15 @@ const App = () =>
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
       <Switch>
-        {/* <PrivateRoute exact path="/" component={Trainee}/> */}
+
         <PrivateRoute exact path="/trainee" component={Trainee}/>
         <PrivateRoute exact path="/textFieldDemo" component={TextFieldDemo}/>
         <PrivateRoute exact path="/inputDemo" component={InputDemo}/>
         <PrivateRoute exact path="/childrenDemo" component={ChildrenDemo}/>
         <PrivateRoute path="/trainee" component={Trainee}/>
-        {/* <PrivateRoute exact path="/" component={TraineeList}/> */}
 
         <AuthRoute exact path="/login" component={Login}/>
+        <PrivateRoute exact path="/" component={Trainee} />
         <Route component={NoMatch}/>
 
 
