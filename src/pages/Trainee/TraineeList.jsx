@@ -14,6 +14,7 @@ class TraineeList extends Component {
       open: false,
       orderBy:"",
       order:"asc",
+      page:0,
       user: {
         name: "",
         email: "",
@@ -56,9 +57,14 @@ class TraineeList extends Component {
       orderBy: property
     })
   }
+  handleChangePage = (event, newPage) => {
+    this.setState({
+      page: newPage,
+    })
+  }
 
   render() {
-    const { open, order, orderBy } = this.state;
+    const { open, order, orderBy, page } = this.state;
     const { match } = this.props;
     // console.log(match);
 
@@ -95,20 +101,33 @@ class TraineeList extends Component {
               format: this.getFormattedDate,
             },
           ]}
+          actions={[
+            {
+              icon: "EditIcon",
+              handler: this.handleEditDialogOpen,
+            },
+            {
+              icon: "DeleteIcon" ,
+              handler: this.handleRemoveDialogOpen,
+            },
+          ]}
           orderBy={orderBy}
           order={order}
           onSort={this.handleSort}
           onSelect={this.handleSelect}
+          count={100}
+          page={page}
+          onChangePage={this.handleChangePage}
 
         />
 
-        <ul>
+        {/* <ul>
           {trainees.map(({ id, name }) => (
             <li key={id}>
               <Link to={`${match.url}/${id}`}> {name} </Link>
             </li>
           ))}
-        </ul>
+        </ul> */}
       </>
     );
   }

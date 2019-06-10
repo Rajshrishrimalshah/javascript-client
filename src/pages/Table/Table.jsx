@@ -7,6 +7,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
+import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
 
 
@@ -27,7 +28,7 @@ class TablePage extends Component {
 
 
   render() {
-    const { classes, data, columns, onSort, order, orderBy } = this.props;
+    const { classes, count, data, columns, onSort, order, orderBy, page, onChangePage, rowsPerPage } = this.props;
 
 
     return (
@@ -75,7 +76,18 @@ class TablePage extends Component {
           ))
           }
         </TableBody>
-
+        <TablePagination
+                rowsPerPageOptions={[]}
+                colSpan={3}
+                count={count}
+                page={page}
+                SelectProps={{
+                  inputProps: { 'aria-label': 'Rows per page' },
+                  native: true,
+                }}
+                onChangePage={onChangePage}
+                  rowsPerPage={10}
+              />
 
       </Table>
     </Paper>

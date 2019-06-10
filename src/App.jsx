@@ -11,10 +11,9 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { PrivateRoute } from "./routes/PrivateRoute";
 import TextFieldDemo from "./pages/TextFieldDemo";
 import TraineeList from "./pages/Trainee/TraineeList";
-import EnhancedTable from './pages/Table/EnhancedTable';
 
 const App = () =>
-    //<EnhancedTable />
+
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
       <Switch>
