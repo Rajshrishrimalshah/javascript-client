@@ -1,3 +1,4 @@
+import moment from "moment";
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -46,7 +47,7 @@ class TablePage extends Component {
             {
               columns.map(column => (
                 <TableCell component="th" scope="row" align={column.align}>
-                  {row[column.field]}
+                  {column.format ? (column.format(row[column.field])) : row[column.field]}
                 </TableCell>
               ))
             }

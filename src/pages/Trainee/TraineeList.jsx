@@ -2,9 +2,10 @@ import AddDialog from "../Trainee/components/AddDialog/AddDialog";
 import Button from "@material-ui/core/Button";
 import Form from "../Trainee/Form";
 import trainees from "./data/trainee";
-import Table from "../Table/Table"
+import Table from "../Table/Table";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 class TraineeList extends Component {
   constructor(props) {
@@ -37,8 +38,11 @@ class TraineeList extends Component {
     });
 
     console.log(this.state.user);
-
   };
+
+  getFormattedDate = (date) => {
+    return moment(date).format('dddd, MMMM Do YYYY, h:mm:ss a')
+  }
 
   render() {
     const { open } = this.state;
@@ -47,40 +51,49 @@ class TraineeList extends Component {
 
     return (
       <>
-      <Button variant="outlined" color="primary" onClick={this.handleClick}>
-        Add TRAINEE LIST
-      </Button>
-      <AddDialog openProp={open} clickHandler={this.handleClick}>
-        <Form handlerFromParent={this.handleDataParent} clickHandler={this.handleClick} />
-      </AddDialog>
+        <Button variant="outlined" color="primary" onClick={this.handleClick}>
+          Add TRAINEE LIST
+        </Button>
+        <AddDialog openProp={open} clickHandler={this.handleClick}>
+          <Form
+            handlerFromParent={this.handleDataParent}
+            clickHandler={this.handleClick}
+          />
+        </AddDialog>
 
+        <Table
+          id="id"
+          data={trainees}
+          columns={[
+            {
+              field: "name",
+              label: "Name",
+              align: "center"
+            },
+            {
+              field: "email",
+              label: "Email",
+              format: value => value && value.toUpperCase(),
+            },
+            {
+              field: "createdAt",
+              label: "Date",
+              align: "right",
+              format: this.getFormattedDate,
 
-      <Table
-        id="id"
-        data={trainees}
-        columns={[
-          {
-            field: 'name',
-            label: 'Name',
-            align: 'center'
-          },
-          {
-            field: 'email',
-            label: 'Email'
-          },
-        ]
-        }
-      />
+            },
+          ]}
 
-      <ul>
-          {trainees.map(({ id, name }) =>
-          <li key={id}>
-            <Link to={`${match.url}/${id}`}> {name} </Link>
-          </li>
-          )}
-      </ul>
+        />
 
-    </>
+        <ul>
+          {trainees.map(({ id, name }) => (
+            <li key={id}>
+              <Link to={`${match.url}/${id}`}> {name} </Link>
+            </li>
+          ))}
+        </ul>
+      </>
     );
   }
 }
