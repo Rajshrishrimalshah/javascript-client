@@ -29,31 +29,33 @@ class TablePage extends Component {
     return (
       <Paper className={classes.root}>
       <Table className={classes.table} style={{}}>
-        <TableHead style={{align: "center"}}>
 
-        {columns.map(row => (
+      <TableHead>
+        <TableRow >
+          {
+            columns.map(column =>
+            <TableCell key={column.field} align={column.align} > {column.label}</TableCell>
+          )
+          }
+        </TableRow>
+      </TableHead>
 
-              <TableCell component="th" scope="row">
-                {row.label}
-              </TableCell>
-
-          ))}
-
-        </TableHead>
-        <TableBody style={{align: "center"}}>
+        <TableBody>
           {data.map(row => (
             <TableRow key={row.name}>
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-
-              <TableCell component="th" scope="row">
-                {row.email}
-              </TableCell>
-
+            {
+              columns.map(column => (
+                <TableCell component="th" scope="row" align={column.align}>
+                  {row[column.field]}
+                </TableCell>
+              ))
+            }
             </TableRow>
-          ))}
+          ))
+          }
         </TableBody>
+
+
       </Table>
     </Paper>
   );

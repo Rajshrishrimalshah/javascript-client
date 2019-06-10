@@ -1,7 +1,4 @@
 import React, { Component } from "react";
-import Button from "@material-ui/core/Button";
-import AddDialog from "../Trainee/components/AddDialog/AddDialog";
-import Form from "../Trainee/Form";
 import { Switch, Route } from 'react-router-dom';
 import TraineeList from "./TraineeList";
 import TraineeDetails  from "./TraineeDetail";
