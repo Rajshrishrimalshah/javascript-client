@@ -16,25 +16,45 @@ import Paper from "@material-ui/core/Paper";
 class EditDialog extends Component {
   constructor(props) {
     super(props);
+    console.log('constructor', props.selectedRow);
     this.state = {
       name: "",
-      email: "",
-      button: true,
-    };
+      email: ''
+    }
   }
 
   handleFieldChange = event => {
+    console.log('in change handler', event.target.name, event.target.value)
     this.setState(
       { [event.target.name]: event.target.value }
     );
   };
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { selectedRow } = nextProps;
+    const { name, email } = prevState;
+    if (selectedRow && (selectedRow.email != prevState.email || selectedRow.name != prevState.name) )
+    return {name: name, email: email}
+    else
+    return null;
+  }
+
+  handleSubmit = () => {
+    const {name, email} = this.state;
+    //console.log(`name: ${name}, email: ${email}`);
+    console.log(this.state);
+  }
 
 
 
   render() {
     const { name, email } = this.state;
     const { clickHandler, openProp, selectedRow, handleCancel } = this.props;
-    console.log(selectedRow)
+    // console.log(selectedRow.name);
+    // console.log('name in state', this.state.name);
+    console.log(this.state);
+
+
 
     const style = {
       margin: 12,
@@ -57,10 +77,10 @@ class EditDialog extends Component {
               <TextField
                 required
                 name="name"
-                value={name}
+                value={selectedRow.name}
+                defaultValue={selectedRow.name}
                 id="outlined-required"
                 label="Name"
-                defaultValue=""
                 margin="normal"
                 variant="outlined"
                 fullWidth
@@ -79,10 +99,10 @@ class EditDialog extends Component {
               <TextField
                 required
                 name="email"
-                value={email}
+                defaultvalue={selectedRow.email}
+                //defaultValue={selectedRow.email}
                 id="outlined-required"
                 label="Email Address"
-                defaultValue=""
                 margin="normal"
                 variant="outlined"
                 fullWidth
@@ -103,8 +123,8 @@ class EditDialog extends Component {
           <Button onClick={handleCancel} color="primary">
             Cancel
           </Button>
-          <Button color="primary">
-            Subscribe
+          <Button color="primary" onClick={this.handleSubmit}>
+            Submit
           </Button>
         </DialogActions>
       </Dialog>

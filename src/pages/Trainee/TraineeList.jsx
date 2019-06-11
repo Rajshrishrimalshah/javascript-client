@@ -67,9 +67,7 @@ class TraineeList extends Component {
   };
 
   handleEditDialogOpen = index => (event) => {
-    //console.log('Id', index);
-    const details =  trainees.filter(trainee => index === trainee.id);
-   // console.log(details);
+    const details =  trainees.find(trainee => index === trainee.id);
     const { edit } = this.state;
     this.setState({
       edit: edit ? false : true,
