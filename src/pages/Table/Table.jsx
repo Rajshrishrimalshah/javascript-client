@@ -65,24 +65,17 @@ class TablePage extends Component {
             >
             {
               columns.map(column => (
-                <TableCell component="th" scope="row" align={column.align}
-
-                  >
+                <TableCell component="th" scope="row" align={column.align}>
                   {column.format ? (column.format(row[column.field])) : row[column.field]}
                 </TableCell>
               ))
             }
 
-            {actions.map(({ icon, handler }) => (
-              <IconButton className={classes.button} aria-label="Delete" onClick={handler}>
+            {actions.map(({ icon, handler, index }) => (
+              <IconButton className={classes.button} aria-label="Delete" onClick={handler(row.id)}>
                     {icon}
               </IconButton>
             ))}
-
-
-
-
-
             </TableRow>
           ))
           }

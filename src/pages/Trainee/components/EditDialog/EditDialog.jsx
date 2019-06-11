@@ -19,27 +19,23 @@ class EditDialog extends Component {
     this.state = {
       name: "",
       email: "",
-      password: "",
-      confirm_password: "",
-      errors: {},
-      isTouch: [],
       button: true,
-      showPassword: false
     };
   }
 
   handleFieldChange = event => {
     this.setState(
-      { [event.target.name]: event.target.value },
-      this.handleValidator
+      { [event.target.name]: event.target.value }
     );
   };
 
 
 
   render() {
-    const { name, email, password, showPassword, button } = this.state;
-    const { handleEditDialogOpen, openProp } = this.props;
+    const { name, email } = this.state;
+    const { clickHandler, openProp, selectedRow, handleCancel } = this.props;
+    console.log(selectedRow)
+
     const style = {
       margin: 12,
       display: "flex",
@@ -49,7 +45,7 @@ class EditDialog extends Component {
 
     return (
       <>
-      <Dialog open={openProp} onClose={handleEditDialogOpen} aria-labelledby="form-dialog-title">
+      <Dialog open={openProp} onClose={handleCancel} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Edit Trainee</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -61,6 +57,7 @@ class EditDialog extends Component {
               <TextField
                 required
                 name="name"
+                value={name}
                 id="outlined-required"
                 label="Name"
                 defaultValue=""
@@ -82,6 +79,7 @@ class EditDialog extends Component {
               <TextField
                 required
                 name="email"
+                value={email}
                 id="outlined-required"
                 label="Email Address"
                 defaultValue=""
@@ -102,7 +100,7 @@ class EditDialog extends Component {
         </Paper>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleEditDialogOpen} color="primary">
+          <Button onClick={handleCancel} color="primary">
             Cancel
           </Button>
           <Button color="primary">
