@@ -16,6 +16,18 @@ const style = theme => ({
   },
   title: {
     flexGrow: 1
+  },
+  link: {
+    color: "white"
+  },
+  visited: {
+    color: "green"
+  },
+  hover: {
+    color: "hotpink"
+  },
+  active: {
+    color: "blue"
   }
 });
 
@@ -32,30 +44,30 @@ class ButtonAppBar extends Component {
             </Typography>
 
             <Link to="/trainee">
-              <Button>
+              <Button className={classes.link}>
                 Trainee
               </Button>
             </Link>
 
             <Link to="/textFieldDemo">
-              <Button>
+              <Button  className={classes.link}>
                 TEXTFIELD DEMO
               </Button>
             </Link>
 
             <Link to="/inputDemo">
-              <Button>
+              <Button className={classes.link}>
                 INPUT DEMO
               </Button>
             </Link>
 
             <Link to="/childrenDemo">
-              <Button>
+              <Button className={classes.link}>
                 children DEMO
               </Button>
             </Link>
 
-            <Button color="inherit">LOGOUT</Button>
+            <Button className={classes.link}>LOGOUT</Button>
 
           </Toolbar>
         </AppBar>

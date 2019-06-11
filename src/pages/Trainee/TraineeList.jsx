@@ -1,12 +1,11 @@
-import React, { Component } from "react";
-import Button from "@material-ui/core/Button";
 import AddDialog from "../Trainee/components/AddDialog/AddDialog";
+import Button from "@material-ui/core/Button";
 import Form from "../Trainee/Form";
-import { Switch, Route } from 'react-router-dom';
-import TraineeList from "./TraineeList";
-import TraineeDetails  from "./TraineeDetail";
+import trainees from "./data/trainee"
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
-class Trainee extends Component {
+class TraineeList extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -43,14 +42,27 @@ class Trainee extends Component {
   render() {
     const { open } = this.state;
     const { match } = this.props;
-    return (
-      <Switch>
-        <Route exact path={match.url} component={TraineeList} />
-        <Route exact path={`${match.url}/:id`} component={TraineeDetails} />
-      </Switch>
+    // console.log(match);
 
+    return (
+      <>
+      <Button variant="outlined" color="primary" onClick={this.handleClick}>
+        Add TRAINEE LIST
+      </Button>
+      <AddDialog openProp={open} clickHandler={this.handleClick}>
+        <Form handlerFromParent={this.handleDataParent} clickHandler={this.handleClick} />
+      </AddDialog>
+
+      <ul>
+          {trainees.map(({ id, name }) =>
+          <li key={id}>
+            <Link to={`${match.url}/${id}`}> {name} </Link>
+          </li>
+          )}
+      </ul>
+    </>
     );
   }
 }
 
-export default Trainee;
+export default TraineeList;
