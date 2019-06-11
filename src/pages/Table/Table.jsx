@@ -1,4 +1,3 @@
-import moment from "moment";
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -9,6 +8,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
+import IconButton from '@material-ui/core/IconButton';
 
 
 const style = theme => ({
@@ -25,10 +25,10 @@ const style = theme => ({
 
 class TablePage extends Component {
 
-
-
   render() {
     const { classes, count, data, columns, onSort, order, orderBy, page, onChangePage, rowsPerPage } = this.props;
+    const { actions } =this.props;
+
 
 
     return (
@@ -72,6 +72,17 @@ class TablePage extends Component {
                 </TableCell>
               ))
             }
+
+            {actions.map(({ icon, handler }) => (
+              <IconButton className={classes.button} aria-label="Delete" onClick={handler}>
+                    {icon}
+              </IconButton>
+            ))}
+
+
+
+
+
             </TableRow>
           ))
           }

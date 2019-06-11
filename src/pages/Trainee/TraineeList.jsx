@@ -1,17 +1,24 @@
 import AddDialog from "../Trainee/components/AddDialog/AddDialog";
 import Button from "@material-ui/core/Button";
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import EditDialog from "./components/EditDialog/EditDialog"
 import Form from "../Trainee/Form";
+import moment from "moment";
 import trainees from "./data/trainee";
 import Table from "../Table/Table";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import moment from "moment";
+
+
+
 
 class TraineeList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       open: false,
+      edit: false,
       orderBy:"",
       order:"asc",
       page:0,
@@ -63,8 +70,18 @@ class TraineeList extends Component {
     })
   }
 
+  handleEditDialogOpen = () => {
+  const { edit } = this.state;
+    this.setState({
+      edit: edit ? false : true
+    });
+  }
+
+  handleRemoveDialogOpen = () => {
+    console.log("Remove Handler");
+  }
   render() {
-    const { open, order, orderBy, page } = this.state;
+    const { open, order, orderBy, page, edit } = this.state;
     const { match } = this.props;
     // console.log(match);
 
@@ -78,6 +95,10 @@ class TraineeList extends Component {
             handlerFromParent={this.handleDataParent}
             clickHandler={this.handleClick}
           />
+        </AddDialog>
+
+        <AddDialog openProp={edit} clickHandler={this.handleEditDialogOpen}>
+          <EditDialog openProp={edit} handleEditDialogOpen={this.handleEditDialogOpen}/>
         </AddDialog>
 
         <Table
@@ -103,11 +124,11 @@ class TraineeList extends Component {
           ]}
           actions={[
             {
-              icon: "EditIcon",
+              icon: <EditIcon />,
               handler: this.handleEditDialogOpen,
             },
             {
-              icon: "DeleteIcon" ,
+              icon: <DeleteIcon />,
               handler: this.handleRemoveDialogOpen,
             },
           ]}
