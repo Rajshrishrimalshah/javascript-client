@@ -7,7 +7,23 @@ class childrenDemo extends Component {
 
     return(
     <React.Fragment>
-      <Math first={7} second={2} operator="-">
+      <Math first={1} second={2} operator="+">
+        {template}
+      </Math>
+
+      <Math first={1} second={2} operator="-">
+        {template}
+      </Math>
+
+      <Math first={1} second={2} operator="*">
+        {template}
+      </Math>
+
+      <Math first={1} second={2} operator="^">
+        {template}
+      </Math>
+
+      <Math first={1} second={4} operator="+">
         {template}
       </Math>
   </React.Fragment>

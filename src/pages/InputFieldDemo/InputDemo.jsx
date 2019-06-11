@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import { InputBox } from "../../components/TextField/TextField";
 import SelectBox from "../../components/SelectBox/SelectBox";
@@ -39,7 +40,7 @@ class InputDemo extends React.Component {
   handleFootballChange = event => {
     this.setState({ Football: event.target.value });
   };
-  0;
+
   blurHandler = event => () => {
     const { isTouch } = this.state;
     if (!isTouch.includes(event)) {
