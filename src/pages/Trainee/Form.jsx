@@ -11,7 +11,7 @@ import Mail from "@material-ui/icons/Mail";
 import TextField from "@material-ui/core/TextField";
 import validationSchema from "./components/AddDialog/ValidationSchema";
 import Paper from "@material-ui/core/Paper";
-import { withSnackBarConsumer } from '../../contexts/snackBarProvider/withSnackBarConsumer';
+
 
 class Form extends Component {
   constructor(props) {
@@ -115,7 +115,7 @@ class Form extends Component {
 
   render() {
     const { name, email, password, showPassword, button } = this.state;
-    const { handlerFromParent, clickHandler, snackBarOpen } = this.props;
+    const { handlerFromParent, clickHandler } = this.props;
     const style = {
       margin: 12,
       display: "flex",
@@ -240,8 +240,8 @@ class Form extends Component {
           <Button
             color="primary"
             disabled={button}
-            //onClick={handlerFromParent(name, email, password)}
-            onClick={snackBarOpen("This is a success message !")}
+            onClick={handlerFromParent(name, email, password)}
+            //onClick={snackBarOpen("This is a success message !", "error")}
           >
             Submit
           </Button>
@@ -251,4 +251,4 @@ class Form extends Component {
   }
 }
 
-export default withSnackBarConsumer(Form);
+export default Form;

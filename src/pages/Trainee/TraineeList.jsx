@@ -11,6 +11,7 @@ import trainees from "./data/trainee";
 import Table from "../Table/Table";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { withSnackBarConsumer } from "../../contexts/snackBarProvider/withSnackBarConsumer"
 
 class TraineeList extends Component {
   constructor(props) {
@@ -62,10 +63,18 @@ class TraineeList extends Component {
 
   onDeleteSubmit = obj => {
     console.log("Delete Operation-->", obj);
+    const { snackBarOpen } = this.props;
+    const check= moment(obj.createdAt).isAfter('2019-02-14');
+
+    check ?  snackBarOpen("This is a success message !","success"):
+            snackBarOpen("This is an error message !","error");
+
   };
 
   handleDataParent = (name, email, password) => event => {
     const { user, open } = this.state;
+    const { snackBarOpen } = this.props;
+
     user["name"] = name;
     user["email"] = email;
     user["password"] = password;
@@ -73,6 +82,8 @@ class TraineeList extends Component {
       open: open ? false : true
     });
 
+    //console.log('HIIII HIIII', this.props);
+    snackBarOpen("This is an error message !","error");
     console.log(this.state.user);
   };
 
@@ -187,4 +198,4 @@ class TraineeList extends Component {
   }
 }
 
-export default TraineeList;
+export default withSnackBarConsumer(TraineeList);

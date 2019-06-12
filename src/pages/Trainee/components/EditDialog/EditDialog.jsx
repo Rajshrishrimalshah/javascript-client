@@ -39,9 +39,9 @@ class EditDialog extends React.PureComponent {
 
   handleSubmit = () => {
     const { onClose } = this.state;
+    const { snackBarOpen } = this.props;
     console.log(this.state);
-
-
+    snackBarOpen("This is a EditDilog message !","success");
   };
 
   render() {
@@ -50,7 +50,7 @@ class EditDialog extends React.PureComponent {
     const { name, email } = this.state;
     return (
       <Dialog open={open} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Edit</DialogTitle>
+        <DialogTitle id="form-dialog-title">Edit Trainee Details</DialogTitle>
         <DialogContent>
           <Grid container spacing={3}>
             <Grid item xs={12}>
@@ -105,7 +105,7 @@ class EditDialog extends React.PureComponent {
           </Button>
 
 
-          <Button color="primary" onClick={snackBarOpen("This is a success message !")}>
+          <Button color="primary" onClick={this.handleSubmit}>
               Submit
           </Button>
 

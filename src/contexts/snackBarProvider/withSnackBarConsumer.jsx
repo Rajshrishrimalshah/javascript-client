@@ -1,13 +1,12 @@
 import React from "react";
 import { SnackBarConsumer } from "./Context"
-
 export const withSnackBarConsumer = (WrappedComponent) => {
   const WrapSnackBarConsumer = props => (
     <SnackBarConsumer>
       {({
         snackBarOpen
       }) => {
-        console.log(props)
+        //console.log(props)
         const snackBarProps = {
           snackBarOpen
         };

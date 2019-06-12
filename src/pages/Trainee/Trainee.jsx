@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
 import TraineeList from "./TraineeList";
 import TraineeDetails from "./TraineeDetail";
+import { withSnackBarConsumer } from "../../contexts/snackBarProvider/withSnackBarConsumer"
 
 class Trainee extends Component {
   constructor(props) {
@@ -24,18 +25,22 @@ class Trainee extends Component {
     });
   };
 
-  handleDataParent = (name, email, password) => event => {
-    const { user, open } = this.state;
-    user["name"] = name;
-    user["email"] = email;
-    user["password"] = password;
-    this.setState({
-      open: open ? false : true,
-      user
-    });
+  // handleDataParent = (name, email, password) => event => {
+  //   const { user, open } = this.state;
+  //   const { snackBarOpen } = this.props;
+  //   console.log('SnackBarOpen', this.props);
+  //   user["name"] = name;
+  //   user["email"] = email;
+  //   user["password"] = password;
+  //   this.setState({
+  //     open: open ? false : true,
+  //     user
+  //   });
 
-    console.log(this.state.user);
-  };
+  //   snackBarOpen("This is a success message !");
+  //   console.log('SnackBarOpen', this.props);
+  //   console.log(this.state.user);
+  // };
 
   render() {
   //  const { open } = this.state;
