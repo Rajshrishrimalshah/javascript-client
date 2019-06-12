@@ -9,6 +9,7 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import Button from "@material-ui/core/Button";
 import { Grid, TextField } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
+import { Consumer } from "../../../../contexts/snackBarProvider/Context";
 
 const styles = theme => ({
   root: {
@@ -36,7 +37,10 @@ class EditDialog extends React.PureComponent {
   };
 
   handleSubmit = () => {
+    const { onClose } = this.state;
     console.log(this.state);
+
+
   };
 
   render() {
@@ -98,9 +102,20 @@ class EditDialog extends React.PureComponent {
           <Button color="primary" onClick={onClose}>
             Cancel
           </Button>
-          <Button color="primary" onClick={this.handleSubmit}>
+
+          <Consumer>
+          {value =>
+            {
+              console.log(value)
+            return (
+              <Button color="primary" onClick={value.snackBarOpen("This is a success message !")}>
             Submit
-          </Button>
+            </Button>
+            )
+            }
+          }
+          </Consumer>
+
         </DialogActions>
       </Dialog>
     );
