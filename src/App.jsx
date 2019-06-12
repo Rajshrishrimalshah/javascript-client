@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { AuthRoute } from "./routes/AuthRoute"
 import ChildrenDemo from "./pages/childrenDemo";
 import InputDemo from "./pages/InputFieldDemo"

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import AddDialog from "../Trainee/components/AddDialog/AddDialog";
 import Button from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/Delete";

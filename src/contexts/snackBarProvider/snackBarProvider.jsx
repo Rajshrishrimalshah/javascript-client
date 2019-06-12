@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import  Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import { Provider } from "./Context"
+import { SnackBarProvider } from "./Context"
 
 //export const SnackBarContext = React.createContext();
 
@@ -56,13 +56,13 @@ class SimpleSnackbar extends React.Component {
     return (
       <div>
 
-    <Provider
+    <SnackBarProvider
         value={{
               snackBarOpen: this.snackBarOpen
             }}
       >
       {children}
-    </Provider>
+    </SnackBarProvider>
 
         <Button onClick={() => this.handleClick()}>Open simple snackbar</Button>
         <Snackbar

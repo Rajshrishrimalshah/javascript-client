@@ -1,5 +1,5 @@
 import React  from "react";
 
 const SnackBarContext = React.createContext();
-export const Provider = SnackBarContext.Provider;
-export const Consumer = SnackBarContext.Consumer;
+export const SnackBarProvider = SnackBarContext.Provider;
+export const SnackBarConsumer = SnackBarContext.Consumer;

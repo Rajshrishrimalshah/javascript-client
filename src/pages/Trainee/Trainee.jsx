@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { Component } from "react";
 import { Switch, Route } from "react-router-dom";
 import TraineeList from "./TraineeList";
@@ -37,7 +38,7 @@ class Trainee extends Component {
   };
 
   render() {
-    const { open } = this.state;
+  //  const { open } = this.state;
     const { match } = this.props;
     return (
       <Switch>

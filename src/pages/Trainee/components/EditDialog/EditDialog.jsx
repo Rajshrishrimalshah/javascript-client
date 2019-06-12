@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -9,7 +10,7 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import Button from "@material-ui/core/Button";
 import { Grid, TextField } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import { Consumer } from "../../../../contexts/snackBarProvider/Context";
+import { withSnackBarConsumer } from '../../../../contexts/snackBarProvider/withSnackBarConsumer';
 
 const styles = theme => ({
   root: {
@@ -44,7 +45,7 @@ class EditDialog extends React.PureComponent {
   };
 
   render() {
-    const { open, onClose, classes } = this.props;
+    const { open, onClose, classes, snackBarOpen } = this.props;
     console.log(this.props.data.name);
     const { name, email } = this.state;
     return (
@@ -103,22 +104,15 @@ class EditDialog extends React.PureComponent {
             Cancel
           </Button>
 
-          <Consumer>
-          {value =>
-            {
-              console.log(value)
-            return (
-              <Button color="primary" onClick={value.snackBarOpen("This is a success message !")}>
-            Submit
-            </Button>
-            )
-            }
-          }
-          </Consumer>
+
+          <Button color="primary" onClick={snackBarOpen("This is a success message !")}>
+              Submit
+          </Button>
+
 
         </DialogActions>
       </Dialog>
     );
   }
 }
-export default withStyles(styles)(EditDialog);
+export default withSnackBarConsumer(withStyles(styles)(EditDialog));
