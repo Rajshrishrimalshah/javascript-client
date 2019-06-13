@@ -12,7 +12,6 @@ import TextField from "@material-ui/core/TextField";
 import validationSchema from "./components/AddDialog/ValidationSchema";
 import Paper from "@material-ui/core/Paper";
 
-
 class Form extends Component {
   constructor(props) {
     super(props);
@@ -241,7 +240,6 @@ class Form extends Component {
             color="primary"
             disabled={button}
             onClick={handlerFromParent(name, email, password)}
-            //onClick={snackBarOpen("This is a success message !", "error")}
           >
             Submit
           </Button>
