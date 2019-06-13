@@ -1,8 +1,14 @@
 import React from "react";
 import { PrivateLayout } from "../layouts/PrivateLayout/PrivateLayout";
-import { Route } from "react-router-dom"
+import { Route } from "react-router-dom";
+import LocalStorageMethods from "../contexts/snackBarProvider/LocalStorageMethods";
+import  { Redirect } from 'react-router-dom';
 
-export const PrivateRoute = ({component: Component, ...rest}) => {
+const PrivateRoute = ({component: Component, getItem, ...rest}) => {
+
+  if(!getItem("token")) {
+    return <Redirect to="/login" />
+  }
 
   return (
     <Route {...rest} render={ matchProps => (
@@ -13,3 +19,6 @@ export const PrivateRoute = ({component: Component, ...rest}) => {
     )} />
   )
 };
+
+
+export default LocalStorageMethods(PrivateRoute);

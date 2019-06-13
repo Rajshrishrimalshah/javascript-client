@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { AuthRoute } from "./routes/AuthRoute"
+import AuthRoute from "./routes/AuthRoute"
 import ChildrenDemo from "./pages/childrenDemo";
 import InputDemo from "./pages/InputFieldDemo"
 import NoMatch from "./pages/NoMatch"
@@ -9,7 +9,7 @@ import { MuiThemeProvider } from "@material-ui/core/styles";
 import Trainee from "./pages/Trainee/Trainee";
 import Login from "./pages/Login";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { PrivateRoute } from "./routes/PrivateRoute";
+import PrivateRoute  from "./routes/PrivateRoute";
 import TextFieldDemo from "./pages/TextFieldDemo";
 import TraineeList from "./pages/Trainee/TraineeList";
 import SimpleSnackbar from "./contexts/snackBarProvider/snackBarProvider"

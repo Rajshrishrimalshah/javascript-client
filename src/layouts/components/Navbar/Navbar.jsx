@@ -32,6 +32,7 @@ const style = theme => ({
 });
 
 class ButtonAppBar extends Component {
+
   render() {
     const { classes } = this.props;
 

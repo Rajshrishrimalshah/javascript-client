@@ -16,7 +16,9 @@ import Mail from "@material-ui/icons/Mail";
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import validationSchema from "./validationSchema";
-import { withSnackBarConsumer } from "../../contexts/snackBarProvider/withSnackBarConsumer"
+import { Redirect } from 'react-router-dom';
+import { withSnackBarConsumer } from "../../contexts/snackBarProvider/withSnackBarConsumer";
+import LocalStorageMethods  from "../../contexts/snackBarProvider/LocalStorageMethods";
 
 dotenv.config();
 
@@ -58,6 +60,7 @@ class SignIn extends Component {
       errors: {},
       isTouch: [],
       button: true,
+      loginRedirect: false,
     };
 
 
@@ -137,7 +140,7 @@ class SignIn extends Component {
 
   handleSubmit = async (event) => {
     const { email, password } = this.state;
-    const { snackBarOpen } = this.props;
+    const { snackBarOpen,setItem } = this.props;
     try{
       const res = await callApi({
         url: process.env.REACT_APP_BASE_URL+ process.env.REACT_APP_LOGIN_URL,
@@ -147,8 +150,11 @@ class SignIn extends Component {
           password,
         }
       })
-      window.localStorage.setItem("token",res.data.data);
+      setItem("token",res.data.data);
       console.log('success', res.data.data)
+      this.setState({
+        loginRedirect: true,
+      });
 
 
     }catch(error){
@@ -159,8 +165,10 @@ class SignIn extends Component {
 
   render() {
     const { classes } = this.props;
-    const { showPassword, button } = this.state;
-    //console.log(this.state);
+    const { showPassword, button, loginRedirect } = this.state;
+    if(loginRedirect){
+      return <Redirect to="trainee" />
+    }
 
     return (
       <Container component="main" maxWidth="xs">
@@ -236,4 +244,4 @@ class SignIn extends Component {
   }
 }
 
-export default withSnackBarConsumer(withStyles(style)(SignIn));
+export default LocalStorageMethods(withSnackBarConsumer(withStyles(style)(SignIn)));
