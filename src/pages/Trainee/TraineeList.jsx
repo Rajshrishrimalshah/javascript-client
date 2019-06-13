@@ -12,6 +12,7 @@ import Table from "../Table/Table";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { withSnackBarConsumer } from "../../contexts/snackBarProvider/withSnackBarConsumer";
+import { callApi } from "../../lib/utils/api"
 
 class TraineeList extends Component {
   constructor(props) {
@@ -47,7 +48,7 @@ class TraineeList extends Component {
     });
   };
 
-  handleEditDialogueOpen = obj => {
+  handleEditDialogueOpen = async(obj) => {
     this.setState({
       openEditDialog: true,
       currentUser: obj
@@ -183,6 +184,7 @@ class TraineeList extends Component {
           page={page}
           onChangePage={this.handleChangePage}
         />
+
 
         {/* <ul>
           {trainees.map(({ id, name }) => (

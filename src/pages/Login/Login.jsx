@@ -2,7 +2,9 @@
 import React, { Component } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
+import { callApi } from "../../lib/utils/api"
 import CssBaseline from "@material-ui/core/CssBaseline";
+import * as dotenv from 'dotenv';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import TextField from "@material-ui/core/TextField";
@@ -14,6 +16,9 @@ import Mail from "@material-ui/icons/Mail";
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import validationSchema from "./validationSchema";
+import { withSnackBarConsumer } from "../../contexts/snackBarProvider/withSnackBarConsumer"
+
+dotenv.config();
 
 const style = theme => ({
   "@global": {
@@ -54,10 +59,13 @@ class SignIn extends Component {
       isTouch: [],
       button: true,
     };
+
+
   }
 
   handleFieldChange = event => {
-    this.setState({ [event.target.name]: event.target.value}, this.handleValidator );
+    this.setState({
+      [event.target.name]: event.target.value}, this.handleValidator );
   };
 
   handleClickShowPassword = () => {
@@ -127,12 +135,32 @@ class SignIn extends Component {
     );
   };
 
+  handleSubmit = async (event) => {
+    const { email, password } = this.state;
+    const { snackBarOpen } = this.props;
+    try{
+      const res = await callApi({
+        url: process.env.REACT_APP_BASE_URL+ process.env.REACT_APP_LOGIN_URL,
+        method:'post',
+        data: {
+          email,
+          password,
+        }
+      })
+      window.localStorage.setItem("token",res.data.data);
+      console.log('success', res.data.data)
 
+
+    }catch(error){
+      const err= error.message;
+      snackBarOpen(err,"error");
+    }
+  }
 
   render() {
     const { classes } = this.props;
     const { showPassword, button } = this.state;
-    console.log(this.state);
+    //console.log(this.state);
 
     return (
       <Container component="main" maxWidth="xs">
@@ -144,7 +172,7 @@ class SignIn extends Component {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} noValidate >
             <TextField
                 required
                   name="email"
@@ -192,12 +220,12 @@ class SignIn extends Component {
             />
 
             <Button
-              type="submit"
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
               disabled={button}
+              onClick={this.handleSubmit}
             >
               Sign In
             </Button>
@@ -208,4 +236,4 @@ class SignIn extends Component {
   }
 }
 
-export default withStyles(style)(SignIn);
+export default withSnackBarConsumer(withStyles(style)(SignIn));
