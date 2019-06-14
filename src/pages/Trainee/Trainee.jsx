@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route } from "react-router-dom";
 import TraineeList from "./TraineeList";
-import TraineeDetails  from "./TraineeDetail";
+import TraineeDetails from "./TraineeDetail";
 
 class Trainee extends Component {
   constructor(props) {
@@ -34,7 +34,6 @@ class Trainee extends Component {
     });
 
     console.log(this.state.user);
-
   };
 
   render() {
@@ -45,7 +44,6 @@ class Trainee extends Component {
         <Route exact path={match.url} component={TraineeList} />
         <Route exact path={`${match.url}/:id`} component={TraineeDetails} />
       </Switch>
-
     );
   }
 }

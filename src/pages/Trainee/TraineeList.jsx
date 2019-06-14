@@ -2,20 +2,25 @@ import AddDialog from "../Trainee/components/AddDialog/AddDialog";
 import Button from "@material-ui/core/Button";
 import Form from "../Trainee/Form";
 import trainees from "./data/trainee";
-import Table from "../Table/Table"
+import Table from "../Table/Table";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 class TraineeList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       open: false,
+      orderBy:"",
+      order:"asc",
       user: {
         name: "",
         email: "",
         password: ""
-      }
+      },
+
+
     };
   }
 
@@ -33,54 +38,78 @@ class TraineeList extends Component {
     user["password"] = password;
     this.setState({
       open: open ? false : true,
-      user
     });
 
     console.log(this.state.user);
-
   };
 
+  getFormattedDate = (date) => {
+    return moment(date).format('dddd, MMMM Do YYYY, h:mm:ss a')
+  }
+
+  handleSort = (event, property) => {
+    const { order, orderBy } = this.state;
+    const isDesc = orderBy === property && order === 'desc';
+    console.log(this.state)
+    this.setState({
+      order: isDesc ? 'asc' : 'desc',
+      orderBy: property
+    })
+  }
+
   render() {
-    const { open } = this.state;
+    const { open, order, orderBy } = this.state;
     const { match } = this.props;
     // console.log(match);
 
     return (
       <>
-      <Button variant="outlined" color="primary" onClick={this.handleClick}>
-        Add TRAINEE LIST
-      </Button>
-      <AddDialog openProp={open} clickHandler={this.handleClick}>
-        <Form handlerFromParent={this.handleDataParent} clickHandler={this.handleClick} />
-      </AddDialog>
+        <Button variant="outlined" color="primary" onClick={this.handleClick}>
+          Add TRAINEE LIST
+        </Button>
+        <AddDialog openProp={open} clickHandler={this.handleClick}>
+          <Form
+            handlerFromParent={this.handleDataParent}
+            clickHandler={this.handleClick}
+          />
+        </AddDialog>
 
+        <Table
+          id="id"
+          data={trainees}
+          columns={[
+            {
+              field: "name",
+              label: "Name",
+              align: "center"
+            },
+            {
+              field: "email",
+              label: "Email",
+              format: value => value && value.toUpperCase(),
+            },
+            {
+              field: "createdAt",
+              label: "Date",
+              align: "right",
+              format: this.getFormattedDate,
+            },
+          ]}
+          orderBy={orderBy}
+          order={order}
+          onSort={this.handleSort}
+          onSelect={this.handleSelect}
 
-      <Table
-        id="id"
-        data={trainees}
-        columns={[
-          {
-            field: 'name',
-            label: 'Name',
-            align: 'center'
-          },
-          {
-            field: 'email',
-            label: 'Email'
-          },
-        ]
-        }
-      />
+        />
 
-      <ul>
-          {trainees.map(({ id, name }) =>
-          <li key={id}>
-            <Link to={`${match.url}/${id}`}> {name} </Link>
-          </li>
-          )}
-      </ul>
-
-    </>
+        <ul>
+          {trainees.map(({ id, name }) => (
+            <li key={id}>
+              <Link to={`${match.url}/${id}`}> {name} </Link>
+            </li>
+          ))}
+        </ul>
+      </>
     );
   }
 }
