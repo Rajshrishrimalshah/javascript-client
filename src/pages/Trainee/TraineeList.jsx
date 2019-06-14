@@ -1,7 +1,8 @@
 import AddDialog from "../Trainee/components/AddDialog/AddDialog";
 import Button from "@material-ui/core/Button";
 import Form from "../Trainee/Form";
-import trainees from "./data/trainee"
+import trainees from "./data/trainee";
+import Table from "../Table/Table"
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
@@ -53,6 +54,24 @@ class TraineeList extends Component {
         <Form handlerFromParent={this.handleDataParent} clickHandler={this.handleClick} />
       </AddDialog>
 
+
+      <Table
+        id="id"
+        data={trainees}
+        columns={[
+          {
+            field: 'name',
+            label: 'Name',
+            align: 'center'
+          },
+          {
+            field: 'email',
+            label: 'Email'
+          },
+        ]
+        }
+      />
+
       <ul>
           {trainees.map(({ id, name }) =>
           <li key={id}>
@@ -60,6 +79,7 @@ class TraineeList extends Component {
           </li>
           )}
       </ul>
+
     </>
     );
   }
