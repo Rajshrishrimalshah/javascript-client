@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from "react";
-import CircularProgress from '@material-ui/core/CircularProgress';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import { withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -44,8 +44,7 @@ class TablePage extends Component {
 
     return (
       <Paper className={classes.root}>
-
-        {loading &&  <CircularProgress  color="secondary" />}
+        {loading ? <LinearProgress  color="secondary" /> : ''}
         <Table className={classes.table}>
           <TableHead>
             <TableRow>

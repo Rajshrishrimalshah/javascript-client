@@ -36,6 +36,7 @@ class TraineeList extends Component {
       currentUser: {},
       loader: true,
       data: [],
+      loading: true,
     };
   }
 
@@ -45,7 +46,8 @@ class TraineeList extends Component {
 
     try{
       const res = await callApi({
-        url: process.env.REACT_APP_BASE_URL + process.env.REACT_APP_FETCH_DETAIL,
+        url: `${process.env.REACT_APP_BASE_URL}${process.env.REACT_APP_FETCH_DETAIL}`,
+        params: { skip: 0, limit:5},
         method:'get',
         headers: {
           Authorization: getItem("token")
@@ -149,7 +151,8 @@ class TraineeList extends Component {
       orderBy: property
     });
   };
-  handleChangePage = (event, newPage) => {
+  handleChangePage = async (event, newPage) => {
+
     this.setState({
       page: newPage
     });

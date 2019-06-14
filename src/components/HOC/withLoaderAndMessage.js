@@ -1,5 +1,5 @@
 import React from 'react';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import LinearProgress from '@material-ui/core/LinearProgress'
 
 
 
@@ -8,7 +8,7 @@ const withLoaderAndMessage = WrappedComponent => (props) => {
   const {  loading, datalength} = props;
 
       if (loading === true) {
-      return  <CircularProgress  color="secondary" />
+      return   <LinearProgress  color="secondary" />
       }
 
       if(datalength === 0) {

@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
-import AuthRoute from "./routes/AuthRoute"
+import AuthRoute from "./routes/AuthRoute";
+import axios from 'axios'
 import ChildrenDemo from "./pages/childrenDemo";
 import InputDemo from "./pages/InputFieldDemo"
 import NoMatch from "./pages/NoMatch"
@@ -13,6 +14,14 @@ import PrivateRoute  from "./routes/PrivateRoute";
 import TextFieldDemo from "./pages/TextFieldDemo";
 import TraineeList from "./pages/Trainee/TraineeList";
 import SimpleSnackbar from "./contexts/snackBarProvider/snackBarProvider"
+
+const token = localStorage.getItem('token');
+
+axios.interceptors.request.use((config) => {
+  config.headers = { Authorization: token };
+  return config;
+  }, error => Promise.reject(error));
+
 
 const App = () =>
 
