@@ -7,12 +7,16 @@ import EditIcon from "@material-ui/icons/Edit";
 import EditDialog from "./components/EditDialog/EditDialog";
 import Form from "../Trainee/Form";
 import moment from "moment";
+import LocalStorageMethods from "../../contexts/snackBarProvider/LocalStorageMethods";
 import trainees from "./data/trainee";
 import Table from "../Table/Table";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { withSnackBarConsumer } from "../../contexts/snackBarProvider/withSnackBarConsumer";
 import { callApi } from "../../lib/utils/api"
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 class TraineeList extends Component {
   constructor(props) {
@@ -32,6 +36,24 @@ class TraineeList extends Component {
       currentUser: {}
     };
   }
+
+  componentDidMount = async () => {
+    const { getItem } = this.props;
+    try{
+      const res = await callApi({
+        url: process.env.REACT_APP_BASE_URL + process.env.REACT_APP_FETCH_DETAIL,
+        method:'get',
+        headers: {
+          Authorization: getItem("token")
+        }
+      })
+      console.log('success', res.data.data.records[0]);
+    }catch(error){
+      const err= error.response.data.message;
+      console.log(err);
+    }
+  }
+
 
   handleClick = () => {
     const { open } = this.state;
@@ -72,18 +94,35 @@ class TraineeList extends Component {
       : snackBarOpen("This is an error message !", "error");
   };
 
-  handleDataParent = (name, email, password) => event => {
+  handleDataParent =  (name, email, password) => async (event) => {
     const { user, open } = this.state;
-    const { snackBarOpen } = this.props;
-
+    const { snackBarOpen, getItem } = this.props;
     user["name"] = name;
     user["email"] = email;
     user["password"] = password;
     this.setState({
       open: open ? false : true
     });
-    snackBarOpen("This is a success message !", "success");
-    console.log(this.state.user);
+
+    try{
+      const res = await callApi({
+        url: process.env.REACT_APP_BASE_URL + process.env.REACT_APP_TRAINEE,
+        method:'post',
+        data: {
+          name,
+          email,
+          password,
+        },
+        headers: {
+          Authorization: getItem("token")
+        }
+      })
+      snackBarOpen(res.data.message, "success");
+      console.log('success', res);
+    }catch(error){
+      const err= error.response.data.message;
+      snackBarOpen(err, "Error");
+    }
   };
 
   getDateFormatted = date => {
@@ -113,6 +152,7 @@ class TraineeList extends Component {
   };
 
   render() {
+
     const {
       open,
       order,
@@ -198,4 +238,4 @@ class TraineeList extends Component {
   }
 }
 
-export default withSnackBarConsumer(TraineeList);
+export default LocalStorageMethods(withSnackBarConsumer(TraineeList));

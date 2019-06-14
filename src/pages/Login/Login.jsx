@@ -164,7 +164,7 @@ class SignIn extends Component {
 
 
     }catch(error){
-      const err= error.message;
+      const err= error.response.data.message;
       snackBarOpen(err,"error");
       this.setState({
         loading: false

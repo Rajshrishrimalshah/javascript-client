@@ -23,6 +23,7 @@ const style = theme => ({
 });
 
 class TablePage extends Component {
+
   render() {
     const {
       classes,
