@@ -4,6 +4,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import { callApi } from "../../lib/utils/api"
 import CssBaseline from "@material-ui/core/CssBaseline";
+import CircularProgress from '@material-ui/core/CircularProgress';
 import * as dotenv from 'dotenv';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
@@ -61,6 +62,7 @@ class SignIn extends Component {
       isTouch: [],
       button: true,
       loginRedirect: false,
+      loading: false
     };
 
 
@@ -141,6 +143,9 @@ class SignIn extends Component {
   handleSubmit = async (event) => {
     const { email, password } = this.state;
     const { snackBarOpen,setItem } = this.props;
+    this.setState({
+      loading: true
+    });
     try{
       const res = await callApi({
         url: process.env.REACT_APP_BASE_URL+ process.env.REACT_APP_LOGIN_URL,
@@ -154,18 +159,22 @@ class SignIn extends Component {
       console.log('success', res.data.data)
       this.setState({
         loginRedirect: true,
+        loading: false
       });
 
 
     }catch(error){
       const err= error.message;
       snackBarOpen(err,"error");
+      this.setState({
+        loading: false
+      });
     }
   }
 
   render() {
     const { classes } = this.props;
-    const { showPassword, button, loginRedirect } = this.state;
+    const { showPassword, button, loginRedirect, loading } = this.state;
     if(loginRedirect){
       return <Redirect to="trainee" />
     }
@@ -234,7 +243,9 @@ class SignIn extends Component {
               className={classes.submit}
               disabled={button}
               onClick={this.handleSubmit}
+
             >
+              {loading && <CircularProgress color="secondary" /> }
               Sign In
             </Button>
           </form>
