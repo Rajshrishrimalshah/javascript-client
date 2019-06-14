@@ -33,12 +33,16 @@ class TraineeList extends Component {
       },
       openEditDialog: false,
       openDeleteDialog: false,
-      currentUser: {}
+      currentUser: {},
+      loader: true,
+      data: [],
     };
   }
 
   componentDidMount = async () => {
     const { getItem } = this.props;
+    const { loader,data } = this.state;
+
     try{
       const res = await callApi({
         url: process.env.REACT_APP_BASE_URL + process.env.REACT_APP_FETCH_DETAIL,
@@ -47,10 +51,17 @@ class TraineeList extends Component {
           Authorization: getItem("token")
         }
       })
-      console.log('success', res.data.data.records[0]);
+      console.log('success', res.data.data.records);
+      this.setState({
+        loading:false,
+        data:  res.data.data.records
+      })
     }catch(error){
       const err= error.response.data.message;
       console.log(err);
+      this.setState({
+        loading:false
+      })
     }
   }
 
@@ -153,6 +164,7 @@ class TraineeList extends Component {
 
   render() {
 
+
     const {
       open,
       order,
@@ -160,7 +172,9 @@ class TraineeList extends Component {
       page,
       openEditDialog,
       openDeleteDialog,
-      currentUser
+      currentUser,
+      loading,
+      data,
     } = this.state;
     const { match } = this.props;
 
@@ -190,8 +204,10 @@ class TraineeList extends Component {
           onSubmit={this.onDeleteSubmit}
         />
         <Table
+          loading={loading}
           id="id"
-          data={trainees}
+          data={data}
+          datalength={data.length}
           column={[
             { field: "name", label: "Name", align: "center" },
             {
