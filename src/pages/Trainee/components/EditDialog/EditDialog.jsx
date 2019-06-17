@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { callApi } from "../../../../lib/utils/api"
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { callApi } from "../../../../lib/utils/api";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -13,7 +13,6 @@ import Button from "@material-ui/core/Button";
 import { Grid, TextField } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { withSnackBarConsumer } from "../../../../contexts/snackBarProvider/withSnackBarConsumer";
-
 
 const styles = theme => ({
   root: {
@@ -31,7 +30,7 @@ class EditDialog extends React.PureComponent {
     super(props);
     const { data } = props;
     const { name, email, _id } = data;
-    this.state = { name, email, _id, button:true, loading:false };
+    this.state = { name, email, _id, button: true, loading: false };
   }
 
   handleInputChange = event => {
@@ -43,35 +42,36 @@ class EditDialog extends React.PureComponent {
 
   handleSubmit = async () => {
     const { name, email, _id } = this.state;
-    const { snackBarOpen, onClose } = this.props;
+    const { snackBarOpen, onClose, reloadTable } = this.props;
 
     this.setState({
-      loading:true
-    })
-  try{
-    const res = await callApi({
-      url: process.env.REACT_APP_BASE_URL + process.env.REACT_APP_UPDATE_URL,
-      method:'put',
-      data: {
-        id:_id,
-        name,
-        email,
-      },
-    })
-    snackBarOpen(res.data.message, "success");
-    console.log('success', res);
-    this.setState({
-      loading:false
-    })
-    onClose();
-  }catch(error){
-    const err= error.response.data.message;
-    snackBarOpen(err, "Error");
-    this.setState({
-      loading:false
-    })
-    onClose();
-  }
+      loading: true
+    });
+    try {
+      const res = await callApi({
+        url: process.env.REACT_APP_BASE_URL + process.env.REACT_APP_UPDATE_URL,
+        method: "put",
+        data: {
+          id: _id,
+          name,
+          email
+        }
+      });
+      snackBarOpen(res.data.message, "success");
+      console.log("success", res);
+      this.setState({
+        loading: false
+      });
+      onClose();
+      reloadTable();
+    } catch (error) {
+      const err = error.response.data.message;
+      snackBarOpen(err, "Error");
+      this.setState({
+        loading: false
+      });
+      onClose();
+    }
   };
 
   render() {
@@ -137,12 +137,12 @@ class EditDialog extends React.PureComponent {
 
           <Button
             color="primary"
-            disabled= {button}
+            disabled={button}
             onClick={() => {
               this.handleSubmit();
             }}
           >
-              {loading && <CircularProgress /> }
+            {loading && <CircularProgress />}
             Submit
           </Button>
         </DialogActions>
