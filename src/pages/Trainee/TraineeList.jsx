@@ -7,12 +7,16 @@ import EditIcon from "@material-ui/icons/Edit";
 import EditDialog from "./components/EditDialog/EditDialog";
 import Form from "../Trainee/Form";
 import moment from "moment";
+import LocalStorageMethods from "../../contexts/snackBarProvider/LocalStorageMethods";
 import trainees from "./data/trainee";
 import Table from "../Table/Table";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { withSnackBarConsumer } from "../../contexts/snackBarProvider/withSnackBarConsumer";
 import { callApi } from "../../lib/utils/api"
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 class TraineeList extends Component {
   constructor(props) {
@@ -29,9 +33,41 @@ class TraineeList extends Component {
       },
       openEditDialog: false,
       openDeleteDialog: false,
-      currentUser: {}
+      currentUser: {},
+      loader: true,
+      data: [],
+      loading: true,
+      skip: 0,
+      limit: 5
+
     };
   }
+
+  componentDidMount = async () => {
+    const {  snackBarOpen } = this.props;
+    const { loader,data, loading, skip, limit } = this.state;
+
+    try{
+      const res = await callApi({
+        url: `${process.env.REACT_APP_BASE_URL}${process.env.REACT_APP_FETCH_DETAIL}`,
+        params: { skip, limit},
+        method:'get',
+      })
+      console.log('success', res.data.data.records);
+      this.setState({
+        loading:false,
+        data:  res.data.data.records
+      })
+    }catch(error){
+      const err= error.response.data.message;
+      snackBarOpen(err, "Error");
+      console.log(err);
+      this.setState({
+        loading:false
+      })
+    }
+  }
+
 
   handleClick = () => {
     const { open } = this.state;
@@ -72,18 +108,32 @@ class TraineeList extends Component {
       : snackBarOpen("This is an error message !", "error");
   };
 
-  handleDataParent = (name, email, password) => event => {
+  handleDataParent =  (name, email, password) => async (event) => {
     const { user, open } = this.state;
-    const { snackBarOpen } = this.props;
-
+    const { snackBarOpen, getItem } = this.props;
     user["name"] = name;
     user["email"] = email;
     user["password"] = password;
     this.setState({
       open: open ? false : true
     });
-    snackBarOpen("This is a success message !", "success");
-    console.log(this.state.user);
+
+    try{
+      const res = await callApi({
+        url: process.env.REACT_APP_BASE_URL + process.env.REACT_APP_TRAINEE,
+        method:'post',
+        data: {
+          name,
+          email,
+          password,
+        },
+      })
+      snackBarOpen(res.data.message, "success");
+      console.log('success', res);
+    }catch(error){
+      const err= error.response.data.message;
+      snackBarOpen(err, "Error");
+    }
   };
 
   getDateFormatted = date => {
@@ -99,10 +149,38 @@ class TraineeList extends Component {
       orderBy: property
     });
   };
-  handleChangePage = (event, newPage) => {
+  handleChangePage = async (event, newPage) => {
+
+    const { snackBarOpen } = this.props;
+    const { loader,data, loading, skip, limit  } = this.state;
+
     this.setState({
-      page: newPage
+      page: newPage,
+      skip: skip+5,
+      limit: limit+5,
+      loading: true
     });
+
+    try{
+      const res = await callApi({
+        url: `${process.env.REACT_APP_BASE_URL}${process.env.REACT_APP_FETCH_DETAIL}`,
+        params: { skip, limit},
+        method:'get',
+      })
+      console.log('success', res.data.data.records);
+      this.setState({
+        loading:false,
+        data:  res.data.data.records
+      })
+    }catch(error){
+      const err= error.response.data.message;
+      snackBarOpen(err, "Error");
+      this.setState({
+        loading:false
+      })
+    }
+
+    console.log('state values skip',skip,'limit',limit);
   };
 
   clickHandler = () => {
@@ -113,6 +191,8 @@ class TraineeList extends Component {
   };
 
   render() {
+
+
     const {
       open,
       order,
@@ -120,7 +200,9 @@ class TraineeList extends Component {
       page,
       openEditDialog,
       openDeleteDialog,
-      currentUser
+      currentUser,
+      loading,
+      data,
     } = this.state;
     const { match } = this.props;
 
@@ -150,8 +232,10 @@ class TraineeList extends Component {
           onSubmit={this.onDeleteSubmit}
         />
         <Table
+          loading={loading}
           id="id"
-          data={trainees}
+          data={data}
+          datalength={data.length}
           column={[
             { field: "name", label: "Name", align: "center" },
             {
@@ -180,7 +264,7 @@ class TraineeList extends Component {
           order={order}
           onSort={this.handleSort}
           onSelect={this.handleSelect}
-          count={100}
+          count={400}
           page={page}
           onChangePage={this.handleChangePage}
         />
@@ -198,4 +282,4 @@ class TraineeList extends Component {
   }
 }
 
-export default withSnackBarConsumer(TraineeList);
+export default LocalStorageMethods(withSnackBarConsumer(TraineeList));

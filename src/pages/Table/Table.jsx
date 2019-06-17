@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from "react";
+import LinearProgress from '@material-ui/core/LinearProgress';
 import { withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -10,6 +11,7 @@ import TableSortLabel from "@material-ui/core/TableSortLabel";
 import TablePagination from "@material-ui/core/TablePagination";
 import Paper from "@material-ui/core/Paper";
 import IconButton from "@material-ui/core/IconButton";
+import withLoaderAndMessage from "../../components/HOC/withLoaderAndMessage"
 
 const style = theme => ({
   root: {
@@ -23,6 +25,7 @@ const style = theme => ({
 });
 
 class TablePage extends Component {
+
   render() {
     const {
       classes,
@@ -35,11 +38,13 @@ class TablePage extends Component {
       count,
       page,
       onChangePage,
-      actions
+      actions,
+      loading
     } = this.props;
 
     return (
       <Paper className={classes.root}>
+        {loading ? <LinearProgress  color="secondary" /> : ''}
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
@@ -100,4 +105,4 @@ class TablePage extends Component {
   }
 }
 
-export default withStyles(style)(TablePage);
+export default withLoaderAndMessage(withStyles(style)(TablePage));
