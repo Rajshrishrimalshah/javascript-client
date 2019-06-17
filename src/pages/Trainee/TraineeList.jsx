@@ -65,7 +65,7 @@ class TraineeList extends Component {
       });
     } catch (error) {
       const err = error.response.data.message;
-      snackBarOpen(err, "Error");
+      snackBarOpen(err, "error");
       console.log(err);
       this.setState({
         loading: false
@@ -138,7 +138,7 @@ class TraineeList extends Component {
       console.log("success", res);
     } catch (error) {
       const err = error.response.data.message;
-      snackBarOpen(err, "Error");
+      snackBarOpen(err, "error");
     }
   };
 
@@ -181,7 +181,7 @@ class TraineeList extends Component {
       });
     } catch (error) {
       const err = error.response.data.message;
-      snackBarOpen(err, "Error");
+      snackBarOpen(err, "error");
       this.setState({
         loading: false
       });

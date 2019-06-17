@@ -67,7 +67,7 @@ class RemoveDialog extends React.PureComponent {
       onClose();
     } catch (error) {
       const err = error.response.data.message;
-      snackBarOpen(err, "Error");
+      snackBarOpen(err, "error");
       this.setState({
         loading: false,
         button: false

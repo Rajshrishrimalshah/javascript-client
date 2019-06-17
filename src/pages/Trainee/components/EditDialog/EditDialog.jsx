@@ -66,7 +66,7 @@ class EditDialog extends React.PureComponent {
       reloadTable();
     } catch (error) {
       const err = error.response.data.message;
-      snackBarOpen(err, "Error");
+      snackBarOpen(err, "error");
       this.setState({
         loading: false
       });
