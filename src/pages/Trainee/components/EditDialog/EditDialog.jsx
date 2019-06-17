@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { callApi } from "../../../../lib/utils/api"
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -11,6 +13,7 @@ import Button from "@material-ui/core/Button";
 import { Grid, TextField } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { withSnackBarConsumer } from "../../../../contexts/snackBarProvider/withSnackBarConsumer";
+
 
 const styles = theme => ({
   root: {
@@ -27,27 +30,55 @@ class EditDialog extends React.PureComponent {
   constructor(props) {
     super(props);
     const { data } = props;
-    const { name, email } = data;
-    this.state = { name, email };
+    const { name, email, _id } = data;
+    this.state = { name, email, _id, button:true, loading:false };
   }
 
   handleInputChange = event => {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
+      button: false
     });
   };
 
-  handleSubmit = () => {
-    const { onClose } = this.state;
-    const { snackBarOpen } = this.props;
-    console.log(this.state);
-    snackBarOpen("This is a success message !", "success");
+  handleSubmit = async () => {
+    const { name, email, _id } = this.state;
+    const { snackBarOpen, onClose } = this.props;
+
+    this.setState({
+      loading:true
+    })
+  try{
+    const res = await callApi({
+      url: process.env.REACT_APP_BASE_URL + process.env.REACT_APP_UPDATE_URL,
+      method:'put',
+      data: {
+        id:_id,
+        name,
+        email,
+      },
+    })
+    snackBarOpen(res.data.message, "success");
+    console.log('success', res);
+    this.setState({
+      loading:false
+    })
+    onClose();
+  }catch(error){
+    const err= error.response.data.message;
+    snackBarOpen(err, "Error");
+    this.setState({
+      loading:false
+    })
+    onClose();
+  }
   };
 
   render() {
     const { open, onClose, classes, snackBarOpen } = this.props;
-    console.log(this.props.data.name);
-    const { name, email } = this.state;
+    //console.log(this.state);
+    const { name, email, loader, button, loading, _id } = this.state;
+    console.log(_id);
     return (
       <Dialog open={open} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Edit Trainee Details</DialogTitle>
@@ -106,11 +137,12 @@ class EditDialog extends React.PureComponent {
 
           <Button
             color="primary"
+            disabled= {button}
             onClick={() => {
               this.handleSubmit();
-              onClose();
             }}
           >
+              {loading && <CircularProgress /> }
             Submit
           </Button>
         </DialogActions>

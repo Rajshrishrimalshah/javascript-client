@@ -44,6 +44,10 @@ class TraineeList extends Component {
   }
 
   componentDidMount = async () => {
+      this.reloadTable();
+  }
+
+  reloadTable = async () => {
     const {  snackBarOpen } = this.props;
     const { loader,data, loading, skip, limit } = this.state;
 
@@ -68,7 +72,6 @@ class TraineeList extends Component {
     }
   }
 
-
   handleClick = () => {
     const { open } = this.state;
     this.setState({
@@ -84,7 +87,7 @@ class TraineeList extends Component {
     });
   };
 
-  handleEditDialogueOpen = async(obj) => {
+  handleEditDialogueOpen = (obj) => {
     this.setState({
       openEditDialog: true,
       currentUser: obj
@@ -206,6 +209,7 @@ class TraineeList extends Component {
     } = this.state;
     const { match } = this.props;
 
+
     return (
       <>
         <Button variant="outlined" color="primary" onClick={this.handleClick}>
@@ -223,6 +227,7 @@ class TraineeList extends Component {
             open={openEditDialog}
             onClose={this.handleClose}
             data={currentUser}
+            reloadTable={this.reloadTable}
           />
         )}
         <RemoveDialog
