@@ -162,7 +162,7 @@ class TraineeList extends Component {
     this.setState({
       page: newPage,
       skip: skip + 5,
-      limit: limit + 5,
+
       loading: true
     });
 
