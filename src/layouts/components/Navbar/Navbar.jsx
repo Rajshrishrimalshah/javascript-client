@@ -1,11 +1,12 @@
 import AppBar from "@material-ui/core/AppBar";
+import Button from "@material-ui/core/Button";
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
-
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
+import LocalStorageMethods from "../../../contexts/snackBarProvider/LocalStorageMethods";
+import  { Redirect } from 'react-router-dom';
 
 const style = theme => ({
   root: {
@@ -32,8 +33,33 @@ const style = theme => ({
 });
 
 class ButtonAppBar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      logoutRedirect: false,
+    };
+  }
+
+  handleLogout = () => {
+    const { deleteItem } = this.props;
+    deleteItem("token");
+    this.setState({
+      logoutRedirect: true,
+    });
+    }
+
+
+
+
   render() {
+
     const { classes } = this.props;
+    const { logoutRedirect } = this.state;
+
+
+  if(logoutRedirect){
+    return <Redirect to="/login" />
+  }
 
     return (
       <div className={classes.root}>
@@ -67,7 +93,7 @@ class ButtonAppBar extends Component {
               </Button>
             </Link>
 
-            <Button className={classes.link}>LOGOUT</Button>
+            <Button className={classes.link} onClick={ this.handleLogout}>LOGOUT</Button>
 
           </Toolbar>
         </AppBar>
@@ -76,4 +102,4 @@ class ButtonAppBar extends Component {
   }
 }
 
-export default withStyles(style)(ButtonAppBar);
+export default LocalStorageMethods(withStyles(style)(ButtonAppBar));

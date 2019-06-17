@@ -2,7 +2,10 @@
 import React, { Component } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
+import { callApi } from "../../lib/utils/api"
 import CssBaseline from "@material-ui/core/CssBaseline";
+import CircularProgress from '@material-ui/core/CircularProgress';
+import * as dotenv from 'dotenv';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import TextField from "@material-ui/core/TextField";
@@ -14,6 +17,11 @@ import Mail from "@material-ui/icons/Mail";
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import validationSchema from "./validationSchema";
+import { Redirect } from 'react-router-dom';
+import { withSnackBarConsumer } from "../../contexts/snackBarProvider/withSnackBarConsumer";
+import LocalStorageMethods  from "../../contexts/snackBarProvider/LocalStorageMethods";
+
+dotenv.config();
 
 const style = theme => ({
   "@global": {
@@ -53,11 +61,16 @@ class SignIn extends Component {
       errors: {},
       isTouch: [],
       button: true,
+      loginRedirect: false,
+      loading: false
     };
+
+
   }
 
   handleFieldChange = event => {
-    this.setState({ [event.target.name]: event.target.value}, this.handleValidator );
+    this.setState({
+      [event.target.name]: event.target.value}, this.handleValidator );
   };
 
   handleClickShowPassword = () => {
@@ -127,12 +140,44 @@ class SignIn extends Component {
     );
   };
 
+  handleSubmit = async (event) => {
+    const { email, password } = this.state;
+    const { snackBarOpen,setItem } = this.props;
+    this.setState({
+      loading: true
+    });
+    try{
+      const res = await callApi({
+        url: process.env.REACT_APP_BASE_URL+ process.env.REACT_APP_LOGIN_URL,
+        method:'post',
+        data: {
+          email,
+          password,
+        }
+      })
+      setItem("token",res.data.data);
+      console.log('success', res.data.data)
+      this.setState({
+        loginRedirect: true,
+        loading: false
+      });
 
+
+    }catch(error){
+      const err= error.message;
+      snackBarOpen(err,"error");
+      this.setState({
+        loading: false
+      });
+    }
+  }
 
   render() {
     const { classes } = this.props;
-    const { showPassword, button } = this.state;
-    console.log(this.state);
+    const { showPassword, button, loginRedirect, loading } = this.state;
+    if(loginRedirect){
+      return <Redirect to="trainee" />
+    }
 
     return (
       <Container component="main" maxWidth="xs">
@@ -144,7 +189,7 @@ class SignIn extends Component {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} noValidate >
             <TextField
                 required
                   name="email"
@@ -192,13 +237,15 @@ class SignIn extends Component {
             />
 
             <Button
-              type="submit"
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
               disabled={button}
+              onClick={this.handleSubmit}
+
             >
+              {loading && <CircularProgress color="secondary" /> }
               Sign In
             </Button>
           </form>
@@ -208,4 +255,4 @@ class SignIn extends Component {
   }
 }
 
-export default withStyles(style)(SignIn);
+export default LocalStorageMethods(withSnackBarConsumer(withStyles(style)(SignIn)));
