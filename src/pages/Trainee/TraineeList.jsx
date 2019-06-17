@@ -37,21 +37,21 @@ class TraineeList extends Component {
       loader: true,
       data: [],
       loading: true,
+      skip: 0,
+      limit: 5
+
     };
   }
 
   componentDidMount = async () => {
-    const { getItem } = this.props;
-    const { loader,data } = this.state;
+    const {  snackBarOpen } = this.props;
+    const { loader,data, loading, skip, limit } = this.state;
 
     try{
       const res = await callApi({
         url: `${process.env.REACT_APP_BASE_URL}${process.env.REACT_APP_FETCH_DETAIL}`,
-        params: { skip: 0, limit:5},
+        params: { skip, limit},
         method:'get',
-        headers: {
-          Authorization: getItem("token")
-        }
       })
       console.log('success', res.data.data.records);
       this.setState({
@@ -60,6 +60,7 @@ class TraineeList extends Component {
       })
     }catch(error){
       const err= error.response.data.message;
+      snackBarOpen(err, "Error");
       console.log(err);
       this.setState({
         loading:false
@@ -126,9 +127,6 @@ class TraineeList extends Component {
           email,
           password,
         },
-        headers: {
-          Authorization: getItem("token")
-        }
       })
       snackBarOpen(res.data.message, "success");
       console.log('success', res);
@@ -153,9 +151,36 @@ class TraineeList extends Component {
   };
   handleChangePage = async (event, newPage) => {
 
+    const { snackBarOpen } = this.props;
+    const { loader,data, loading, skip, limit  } = this.state;
+
     this.setState({
-      page: newPage
+      page: newPage,
+      skip: skip+5,
+      limit: limit+5,
+      loading: true
     });
+
+    try{
+      const res = await callApi({
+        url: `${process.env.REACT_APP_BASE_URL}${process.env.REACT_APP_FETCH_DETAIL}`,
+        params: { skip, limit},
+        method:'get',
+      })
+      console.log('success', res.data.data.records);
+      this.setState({
+        loading:false,
+        data:  res.data.data.records
+      })
+    }catch(error){
+      const err= error.response.data.message;
+      snackBarOpen(err, "Error");
+      this.setState({
+        loading:false
+      })
+    }
+
+    console.log('state values skip',skip,'limit',limit);
   };
 
   clickHandler = () => {
@@ -239,7 +264,7 @@ class TraineeList extends Component {
           order={order}
           onSort={this.handleSort}
           onSelect={this.handleSelect}
-          count={100}
+          count={400}
           page={page}
           onChangePage={this.handleChangePage}
         />
