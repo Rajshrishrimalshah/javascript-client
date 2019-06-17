@@ -2,32 +2,31 @@
 import React, { Component } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
-import { callApi } from "../../lib/utils/api"
+import { callApi } from "../../lib/utils/api";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import CircularProgress from '@material-ui/core/CircularProgress';
-import * as dotenv from 'dotenv';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import IconButton from '@material-ui/core/IconButton';
+import CircularProgress from "@material-ui/core/CircularProgress";
+import * as dotenv from "dotenv";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import IconButton from "@material-ui/core/IconButton";
 import TextField from "@material-ui/core/TextField";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Mail from "@material-ui/icons/Mail";
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import validationSchema from "./validationSchema";
-import { Redirect } from 'react-router-dom';
+import { Redirect } from "react-router-dom";
 import { withSnackBarConsumer } from "../../contexts/snackBarProvider/withSnackBarConsumer";
-import LocalStorageMethods  from "../../contexts/snackBarProvider/LocalStorageMethods";
+import LocalStorageMethods from "../../contexts/snackBarProvider/LocalStorageMethods";
 
 dotenv.config();
 
 const style = theme => ({
   "@global": {
     body: {
-      backgroundColor: theme.palette.common.white,
-
+      backgroundColor: theme.palette.common.white
     }
   },
   paper: {
@@ -43,8 +42,7 @@ const style = theme => ({
   },
   form: {
     width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-
+    marginTop: theme.spacing(1)
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
@@ -64,13 +62,15 @@ class SignIn extends Component {
       loginRedirect: false,
       loading: false
     };
-
-
   }
 
   handleFieldChange = event => {
-    this.setState({
-      [event.target.name]: event.target.value}, this.handleValidator );
+    this.setState(
+      {
+        [event.target.name]: event.target.value
+      },
+      this.handleValidator
+    );
   };
 
   handleClickShowPassword = () => {
@@ -82,7 +82,7 @@ class SignIn extends Component {
     let ErrorObj = {};
     const { email, password } = this.state;
     const valid = validationSchema
-      .validate({ email, password}, { abortEarly: false })
+      .validate({ email, password }, { abortEarly: false })
       .then(success => {
         this.setState({
           errors: {},
@@ -97,7 +97,7 @@ class SignIn extends Component {
         });
         this.setState({
           errors: ErrorObj,
-          button: true,
+          button: true
         });
       });
   };
@@ -140,43 +140,41 @@ class SignIn extends Component {
     );
   };
 
-  handleSubmit = async (event) => {
+  handleSubmit = async event => {
     const { email, password } = this.state;
-    const { snackBarOpen,setItem } = this.props;
+    const { snackBarOpen, setItem } = this.props;
     this.setState({
       loading: true
     });
-    try{
+    try {
       const res = await callApi({
-        url: process.env.REACT_APP_BASE_URL+ process.env.REACT_APP_LOGIN_URL,
-        method:'post',
+        url: process.env.REACT_APP_BASE_URL + process.env.REACT_APP_LOGIN_URL,
+        method: "post",
         data: {
           email,
-          password,
+          password
         }
-      })
-      setItem("token",res.data.data);
-      console.log('success', res.data.data)
+      });
+      setItem("token", res.data.data);
+      console.log("success", res.data.data);
       this.setState({
         loginRedirect: true,
         loading: false
       });
-
-
-    }catch(error){
-      const err= error.response.data.message;
-      snackBarOpen(err,"error");
+    } catch (error) {
+      const err = error.response.data.message;
+      snackBarOpen(err, "error");
       this.setState({
         loading: false
       });
     }
-  }
+  };
 
   render() {
     const { classes } = this.props;
     const { showPassword, button, loginRedirect, loading } = this.state;
-    if(loginRedirect){
-      return <Redirect to="trainee" />
+    if (loginRedirect) {
+      return <Redirect to="trainee" />;
     }
 
     return (
@@ -189,51 +187,52 @@ class SignIn extends Component {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate >
+          <form className={classes.form} noValidate>
             <TextField
-                required
-                  name="email"
-                  id="outlined-required"
-                  label="Email Address"
-                  defaultValue=""
-                  margin="normal"
-                  variant="outlined"
-                  fullWidth
-                  onChange={this.handleFieldChange}
-                  error={this.getErrorBool("email")}
-                  onBlur={this.blurHandler("email")}
-                  helperText={this.getError("email")}
-                  InputProps={{
-          startAdornment: (
-                      <InputAdornment position="start">
-                        <Mail />
-                      </InputAdornment>
-                    ),
-                  }}
+              required
+              name="email"
+              id="outlined-required"
+              label="Email Address"
+              defaultValue=""
+              margin="normal"
+              variant="outlined"
+              fullWidth
+              onChange={this.handleFieldChange}
+              error={this.getErrorBool("email")}
+              onBlur={this.blurHandler("email")}
+              helperText={this.getError("email")}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Mail />
+                  </InputAdornment>
+                )
+              }}
             />
             <TextField
               fullWidth
               name="password"
               id="outlined-adornment-password"
               variant="outlined"
-              type={showPassword ? 'text' : 'password'}
+              type={showPassword ? "text" : "password"}
               label="Password"
               onChange={this.handleFieldChange}
               error={this.getErrorBool("password")}
               onBlur={this.blurHandler("password")}
               helperText={this.getError("password")}
               InputProps={{
-        startAdornment: (
-        <InputAdornment position="start">
-          <IconButton
-            edge="start"
-            aria-label="Toggle password visibility"
-            onClick={this.handleClickShowPassword}>
-            {showPassword ? <VisibilityOff /> : <Visibility />}
-          </IconButton>
-        </InputAdornment>
-      ),
-    }}
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <IconButton
+                      edge="start"
+                      aria-label="Toggle password visibility"
+                      onClick={this.handleClickShowPassword}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
             />
 
             <Button
@@ -243,9 +242,8 @@ class SignIn extends Component {
               className={classes.submit}
               disabled={button}
               onClick={this.handleSubmit}
-
             >
-              {loading && <CircularProgress color="secondary" /> }
+              {loading && <CircularProgress color="secondary" />}
               Sign In
             </Button>
           </form>
@@ -255,4 +253,6 @@ class SignIn extends Component {
   }
 }
 
-export default LocalStorageMethods(withSnackBarConsumer(withStyles(style)(SignIn)));
+export default LocalStorageMethods(
+  withSnackBarConsumer(withStyles(style)(SignIn))
+);

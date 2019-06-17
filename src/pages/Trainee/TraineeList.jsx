@@ -13,8 +13,8 @@ import Table from "../Table/Table";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { withSnackBarConsumer } from "../../contexts/snackBarProvider/withSnackBarConsumer";
-import { callApi } from "../../lib/utils/api"
-import * as dotenv from 'dotenv';
+import { callApi } from "../../lib/utils/api";
+import * as dotenv from "dotenv";
 
 dotenv.config();
 
@@ -39,35 +39,39 @@ class TraineeList extends Component {
       loading: true,
       skip: 0,
       limit: 5
-
     };
   }
 
   componentDidMount = async () => {
-    const {  snackBarOpen } = this.props;
-    const { loader,data, loading, skip, limit } = this.state;
+    this.reloadTable();
+  };
 
-    try{
+  reloadTable = async () => {
+    const { snackBarOpen } = this.props;
+    const { loader, data, loading, skip, limit } = this.state;
+
+    try {
       const res = await callApi({
-        url: `${process.env.REACT_APP_BASE_URL}${process.env.REACT_APP_FETCH_DETAIL}`,
-        params: { skip, limit},
-        method:'get',
-      })
-      console.log('success', res.data.data.records);
+        url: `${process.env.REACT_APP_BASE_URL}${
+          process.env.REACT_APP_FETCH_DETAIL
+        }`,
+        params: { skip, limit },
+        method: "get"
+      });
+      console.log("success", res.data.data.records);
       this.setState({
-        loading:false,
-        data:  res.data.data.records
-      })
-    }catch(error){
-      const err= error.response.data.message;
-      snackBarOpen(err, "Error");
+        loading: false,
+        data: res.data.data.records
+      });
+    } catch (error) {
+      const err = error.response.data.message;
+      snackBarOpen(err, "error");
       console.log(err);
       this.setState({
-        loading:false
-      })
+        loading: false
+      });
     }
-  }
-
+  };
 
   handleClick = () => {
     const { open } = this.state;
@@ -84,7 +88,7 @@ class TraineeList extends Component {
     });
   };
 
-  handleEditDialogueOpen = async(obj) => {
+  handleEditDialogueOpen = obj => {
     this.setState({
       openEditDialog: true,
       currentUser: obj
@@ -101,14 +105,16 @@ class TraineeList extends Component {
   onDeleteSubmit = obj => {
     console.log("Delete Operation-->", obj);
     const { snackBarOpen } = this.props;
-    const check = moment(obj.createdAt).isAfter("2019-02-14");
 
-    check
-      ? snackBarOpen("This is a success message !", "success")
-      : snackBarOpen("This is an error message !", "error");
+    this.reloadTable();
+    // const check = moment(obj.createdAt).isAfter("2019-02-14");
+
+    // check
+    //   ? snackBarOpen("This is a success message !", "success")
+    //   : snackBarOpen("This is an error message !", "error");
   };
 
-  handleDataParent =  (name, email, password) => async (event) => {
+  handleDataParent = (name, email, password) => async event => {
     const { user, open } = this.state;
     const { snackBarOpen, getItem } = this.props;
     user["name"] = name;
@@ -118,21 +124,21 @@ class TraineeList extends Component {
       open: open ? false : true
     });
 
-    try{
+    try {
       const res = await callApi({
         url: process.env.REACT_APP_BASE_URL + process.env.REACT_APP_TRAINEE,
-        method:'post',
+        method: "post",
         data: {
           name,
           email,
-          password,
-        },
-      })
+          password
+        }
+      });
       snackBarOpen(res.data.message, "success");
-      console.log('success', res);
-    }catch(error){
-      const err= error.response.data.message;
-      snackBarOpen(err, "Error");
+      console.log("success", res);
+    } catch (error) {
+      const err = error.response.data.message;
+      snackBarOpen(err, "error");
     }
   };
 
@@ -150,37 +156,38 @@ class TraineeList extends Component {
     });
   };
   handleChangePage = async (event, newPage) => {
-
     const { snackBarOpen } = this.props;
-    const { loader,data, loading, skip, limit  } = this.state;
+    const { loader, data, loading, skip, limit } = this.state;
 
     this.setState({
       page: newPage,
-      skip: skip+5,
-      limit: limit+5,
+      skip: skip + 5,
+      limit: limit + 5,
       loading: true
     });
 
-    try{
+    try {
       const res = await callApi({
-        url: `${process.env.REACT_APP_BASE_URL}${process.env.REACT_APP_FETCH_DETAIL}`,
-        params: { skip, limit},
-        method:'get',
-      })
-      console.log('success', res.data.data.records);
+        url: `${process.env.REACT_APP_BASE_URL}${
+          process.env.REACT_APP_FETCH_DETAIL
+        }`,
+        params: { skip, limit },
+        method: "get"
+      });
+      console.log("success", res.data.data.records);
       this.setState({
-        loading:false,
-        data:  res.data.data.records
-      })
-    }catch(error){
-      const err= error.response.data.message;
-      snackBarOpen(err, "Error");
+        loading: false,
+        data: res.data.data.records
+      });
+    } catch (error) {
+      const err = error.response.data.message;
+      snackBarOpen(err, "error");
       this.setState({
-        loading:false
-      })
+        loading: false
+      });
     }
 
-    console.log('state values skip',skip,'limit',limit);
+    console.log("state values skip", skip, "limit", limit);
   };
 
   clickHandler = () => {
@@ -191,8 +198,6 @@ class TraineeList extends Component {
   };
 
   render() {
-
-
     const {
       open,
       order,
@@ -202,7 +207,7 @@ class TraineeList extends Component {
       openDeleteDialog,
       currentUser,
       loading,
-      data,
+      data
     } = this.state;
     const { match } = this.props;
 
@@ -223,6 +228,7 @@ class TraineeList extends Component {
             open={openEditDialog}
             onClose={this.handleClose}
             data={currentUser}
+            reloadTable={this.reloadTable}
           />
         )}
         <RemoveDialog
@@ -230,6 +236,7 @@ class TraineeList extends Component {
           onClose={this.handleClose}
           data={currentUser}
           onSubmit={this.onDeleteSubmit}
+          reloadTable={this.reloadTable}
         />
         <Table
           loading={loading}
@@ -268,7 +275,6 @@ class TraineeList extends Component {
           page={page}
           onChangePage={this.handleChangePage}
         />
-
 
         {/* <ul>
           {trainees.map(({ id, name }) => (

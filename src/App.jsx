@@ -1,52 +1,48 @@
 /* eslint-disable no-unused-vars */
 import AuthRoute from "./routes/AuthRoute";
-import axios from 'axios'
+import axios from "axios";
 import ChildrenDemo from "./pages/childrenDemo";
-import InputDemo from "./pages/InputFieldDemo"
-import NoMatch from "./pages/NoMatch"
-import React from 'react';
+import InputDemo from "./pages/InputFieldDemo";
+import NoMatch from "./pages/NoMatch";
+import React from "react";
 import theme from "./theme";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import Trainee from "./pages/Trainee/Trainee";
 import Login from "./pages/Login";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import PrivateRoute  from "./routes/PrivateRoute";
+import PrivateRoute from "./routes/PrivateRoute";
 import TextFieldDemo from "./pages/TextFieldDemo";
 import TraineeList from "./pages/Trainee/TraineeList";
-import SimpleSnackbar from "./contexts/snackBarProvider/snackBarProvider"
+import SimpleSnackbar from "./contexts/snackBarProvider/snackBarProvider";
 
-const token = localStorage.getItem('token');
+const token = localStorage.getItem("token");
 
-axios.interceptors.request.use((config) => {
-  config.headers = { Authorization: token };
-  return config;
-  }, error => Promise.reject(error));
+axios.interceptors.request.use(
+  config => {
+    config.headers = { Authorization: token };
+    return config;
+  },
+  error => Promise.reject(error)
+);
 
+const App = () => (
+  <SimpleSnackbar>
+    <MuiThemeProvider theme={theme}>
+      <BrowserRouter>
+        <Switch>
+          <PrivateRoute exact path="/trainee" component={Trainee} />
+          <PrivateRoute exact path="/textFieldDemo" component={TextFieldDemo} />
+          <PrivateRoute exact path="/inputDemo" component={InputDemo} />
+          <PrivateRoute exact path="/childrenDemo" component={ChildrenDemo} />
+          <PrivateRoute path="/trainee" component={Trainee} />
 
-const App = () =>
-
-        <SimpleSnackbar>
-            <MuiThemeProvider theme={theme}>
-                  <BrowserRouter>
-                  <Switch>
-
-                <PrivateRoute exact path="/trainee" component={Trainee}/>
-                    <PrivateRoute exact path="/textFieldDemo" component={TextFieldDemo}/>
-                    <PrivateRoute exact path="/inputDemo" component={InputDemo}/>
-                    <PrivateRoute exact path="/childrenDemo" component={ChildrenDemo}/>
-                <PrivateRoute path="/trainee" component={Trainee}/>
-
-                    <AuthRoute exact path="/login" component={Login}/>
-                    <PrivateRoute exact path="/" component={Trainee} />
-                    <Route component={NoMatch}/>
-
-
-                  </Switch>
-                  </BrowserRouter>
-                </MuiThemeProvider>
-        </SimpleSnackbar>
-
-
-
+          <AuthRoute exact path="/login" component={Login} />
+          <PrivateRoute exact path="/" component={Trainee} />
+          <Route component={NoMatch} />
+        </Switch>
+      </BrowserRouter>
+    </MuiThemeProvider>
+  </SimpleSnackbar>
+);
 
 export default App;

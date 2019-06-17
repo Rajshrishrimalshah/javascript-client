@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from "react";
-import LinearProgress from '@material-ui/core/LinearProgress';
+import LinearProgress from "@material-ui/core/LinearProgress";
 import { withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -11,7 +11,7 @@ import TableSortLabel from "@material-ui/core/TableSortLabel";
 import TablePagination from "@material-ui/core/TablePagination";
 import Paper from "@material-ui/core/Paper";
 import IconButton from "@material-ui/core/IconButton";
-import withLoaderAndMessage from "../../components/HOC/withLoaderAndMessage"
+import withLoaderAndMessage from "../../components/HOC/withLoaderAndMessage";
 
 const style = theme => ({
   root: {
@@ -25,7 +25,6 @@ const style = theme => ({
 });
 
 class TablePage extends Component {
-
   render() {
     const {
       classes,
@@ -44,7 +43,7 @@ class TablePage extends Component {
 
     return (
       <Paper className={classes.root}>
-        {loading ? <LinearProgress  color="secondary" /> : ''}
+        {loading ? <LinearProgress color="secondary" /> : ""}
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
@@ -71,7 +70,9 @@ class TablePage extends Component {
               <TableRow key={row.name} hover selected={index % 2 === 0}>
                 {column.map(column => (
                   <TableCell component="th" scope="row" align={column.align}>
-                    {column.format ? column.format(row[column.field]) : row[column.field]}
+                    {column.format
+                      ? column.format(row[column.field])
+                      : row[column.field]}
                   </TableCell>
                 ))}
                 {actions.map(({ icon, handler }) => (
@@ -99,8 +100,6 @@ class TablePage extends Component {
           />
         </Table>
       </Paper>
-
-
     );
   }
 }
