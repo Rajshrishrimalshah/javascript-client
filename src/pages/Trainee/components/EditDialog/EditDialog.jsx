@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -9,6 +10,7 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import Button from "@material-ui/core/Button";
 import { Grid, TextField } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
+import { withSnackBarConsumer } from "../../../../contexts/snackBarProvider/withSnackBarConsumer";
 
 const styles = theme => ({
   root: {
@@ -36,16 +38,19 @@ class EditDialog extends React.PureComponent {
   };
 
   handleSubmit = () => {
+    const { onClose } = this.state;
+    const { snackBarOpen } = this.props;
     console.log(this.state);
+    snackBarOpen("This is a success message !", "success");
   };
 
   render() {
-    const { open, onClose, classes } = this.props;
+    const { open, onClose, classes, snackBarOpen } = this.props;
     console.log(this.props.data.name);
     const { name, email } = this.state;
     return (
       <Dialog open={open} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Edit</DialogTitle>
+        <DialogTitle id="form-dialog-title">Edit Trainee Details</DialogTitle>
         <DialogContent>
           <Grid container spacing={3}>
             <Grid item xs={12}>
@@ -98,7 +103,14 @@ class EditDialog extends React.PureComponent {
           <Button color="primary" onClick={onClose}>
             Cancel
           </Button>
-          <Button color="primary" onClick={this.handleSubmit}>
+
+          <Button
+            color="primary"
+            onClick={() => {
+              this.handleSubmit();
+              onClose();
+            }}
+          >
             Submit
           </Button>
         </DialogActions>
@@ -106,4 +118,4 @@ class EditDialog extends React.PureComponent {
     );
   }
 }
-export default withStyles(styles)(EditDialog);
+export default withSnackBarConsumer(withStyles(styles)(EditDialog));
