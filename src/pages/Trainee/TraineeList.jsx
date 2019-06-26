@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import ApolloClient from "apollo-boost";
 import AddDialog from "../Trainee/components/AddDialog/AddDialog";
 import Button from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -8,6 +9,8 @@ import EditDialog from "./components/EditDialog/EditDialog";
 import Form from "../Trainee/Form";
 import moment from "moment";
 import LocalStorageMethods from "../../contexts/snackBarProvider/LocalStorageMethods";
+import { Query } from "react-apollo";
+import { gql } from "apollo-boost";
 import trainees from "./data/trainee";
 import Table from "../Table/Table";
 import React, { Component } from "react";
@@ -43,7 +46,7 @@ class TraineeList extends Component {
   }
 
   componentDidMount = async () => {
-    this.reloadTable();
+    //this.reloadTable();
   };
 
   reloadTable = async () => {
@@ -238,44 +241,61 @@ class TraineeList extends Component {
           onSubmit={this.onDeleteSubmit}
           reloadTable={this.reloadTable}
         />
-        <Table
-          loading={loading}
-          id="id"
-          data={data}
-          datalength={data.length}
-          column={[
-            { field: "name", label: "Name", align: "center" },
-            {
-              field: "email",
-              label: "Email Address",
-              format: value => value && value.toUpperCase()
-            },
-            {
-              field: "createdAt",
-              label: "Date",
-              align: "right",
-              format: this.getDateFormatted
-            }
-          ]}
-          actions={[
-            {
-              icon: <EditIcon />,
-              handler: this.handleEditDialogueOpen
-            },
-            {
-              icon: <DeleteIcon />,
-              handler: this.handleRemoveDialogueOpen
-            }
-          ]}
-          orderBy={orderBy}
-          order={order}
-          onSort={this.handleSort}
-          onSelect={this.handleSelect}
-          count={400}
-          page={page}
-          onChangePage={this.handleChangePage}
-        />
 
+        <Query
+          query={gql`
+            query {
+              getTraineeDetail(limit: 5, skip: 225) {
+                _id
+                name
+                email
+                role
+              }
+            }
+          `}
+        >
+          {({ loading, error, data }) => {
+            console.log(data);
+            return (
+            <Table
+              loading={loading}
+              id="id"
+              data={data.getTraineeDetail || []}
+              column={[
+                { field: "name", label: "Name", align: "center" },
+                {
+                  field: "email",
+                  label: "Email Address",
+                  format: value => value && value.toUpperCase()
+                },
+                {
+                  field: "createdAt",
+                  label: "Date",
+                  align: "right",
+                  format: this.getDateFormatted
+                }
+              ]}
+              actions={[
+                {
+                  icon: <EditIcon />,
+                  handler: this.handleEditDialogueOpen
+                },
+                {
+                  icon: <DeleteIcon />,
+                  handler: this.handleRemoveDialogueOpen
+                }
+              ]}
+              orderBy={orderBy}
+              order={order}
+              onSort={this.handleSort}
+              onSelect={this.handleSelect}
+              count={400}
+              page={page}
+              onChangePage={this.handleChangePage}
+            />
+            )
+          }}
+        </Query>
         {/* <ul>
           {trainees.map(({ id, name }) => (
             <li key={id}>

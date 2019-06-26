@@ -1,4 +1,6 @@
 /* eslint-disable no-unused-vars */
+import ApolloClient from "apollo-boost";
+import { ApolloProvider } from "react-apollo";
 import AuthRoute from "./routes/AuthRoute";
 import axios from "axios";
 import ChildrenDemo from "./pages/childrenDemo";
@@ -25,7 +27,16 @@ axios.interceptors.request.use(
   error => Promise.reject(error)
 );
 
+const client = new ApolloClient({
+  uri: "http://localhost:4000/",
+  headers: {
+    Authorization : localStorage.getItem('token'),
+  },
+});
+
+
 const App = () => (
+  <ApolloProvider client={client}>
   <SimpleSnackbar>
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
@@ -43,6 +54,7 @@ const App = () => (
       </BrowserRouter>
     </MuiThemeProvider>
   </SimpleSnackbar>
+  </ApolloProvider>
 );
 
 export default App;

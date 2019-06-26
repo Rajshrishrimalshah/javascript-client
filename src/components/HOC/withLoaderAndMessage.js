@@ -5,13 +5,13 @@ import LinearProgress from '@material-ui/core/LinearProgress'
 
 const withLoaderAndMessage = WrappedComponent => (props) => {
 
-  const {  loading, datalength} = props;
+  const {  loading, data} = props;
 
       if (loading === true) {
       return   <LinearProgress  color="secondary" />
       }
 
-      if(datalength === 0) {
+      if(data.length === 0) {
         return <h4>  OOPS!, No More Trainees when no data is available </h4>
       }
 
