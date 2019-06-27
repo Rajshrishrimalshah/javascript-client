@@ -8,8 +8,9 @@ import EditIcon from "@material-ui/icons/Edit";
 import EditDialog from "./components/EditDialog/EditDialog";
 import Form from "../Trainee/Form";
 import moment from "moment";
+import { Mutation } from "react-apollo";
 import LocalStorageMethods from "../../contexts/snackBarProvider/LocalStorageMethods";
-import { Query } from "react-apollo";
+import { Query, withApollo } from "react-apollo";
 import { gql } from "apollo-boost";
 import trainees from "./data/trainee";
 import Table from "../Table/Table";
@@ -18,6 +19,7 @@ import { Link } from "react-router-dom";
 import { withSnackBarConsumer } from "../../contexts/snackBarProvider/withSnackBarConsumer";
 import { callApi } from "../../lib/utils/api";
 import * as dotenv from "dotenv";
+
 
 dotenv.config();
 
@@ -118,31 +120,46 @@ class TraineeList extends Component {
   };
 
   handleDataParent = (name, email, password) => async event => {
+    console.log("ADDED TRAINEE HANDLER");
+    const CREATE_TRAINEE1= gql`
+    mutation createTrainee($name: String, $email: String, $password: String){
+      createTrainee(name: $name, email:$email ,password:$password){
+        message
+      }
+    }
+    `;
     const { user, open } = this.state;
-    const { snackBarOpen, getItem } = this.props;
+    const { snackBarOpen, getItem, client } = this.props;
     user["name"] = name;
     user["email"] = email;
     user["password"] = password;
+    const { data } = await client.mutate({
+      mutation: CREATE_TRAINEE1,
+      variables: { name, email, password }
+    })
+    console.log("Data: ", data);
+    snackBarOpen(data.createTrainee.message, "success");
     this.setState({
       open: open ? false : true
     });
 
-    try {
-      const res = await callApi({
-        url: process.env.REACT_APP_BASE_URL + process.env.REACT_APP_TRAINEE,
-        method: "post",
-        data: {
-          name,
-          email,
-          password
-        }
-      });
-      snackBarOpen(res.data.message, "success");
-      console.log("success", res);
-    } catch (error) {
-      const err = error.response.data.message;
-      snackBarOpen(err, "error");
-    }
+    // Add new trainee using Axios
+    // try {
+    //   const res = await callApi({
+    //     url: process.env.REACT_APP_BASE_URL + process.env.REACT_APP_TRAINEE,
+    //     method: "post",
+    //     data: {
+    //       name,
+    //       email,
+    //       password
+    //     }
+    //   });
+    //   snackBarOpen(res.data.message, "success");
+    //   console.log("success", res);
+    // } catch (error) {
+    //   const err = error.response.data.message;
+    //   snackBarOpen(err, "error");
+    // }
   };
 
   getDateFormatted = date => {
@@ -213,7 +230,6 @@ class TraineeList extends Component {
       data
     } = this.state;
     const { match } = this.props;
-
     return (
       <>
         <Button variant="outlined" color="primary" onClick={this.handleClick}>
@@ -245,7 +261,7 @@ class TraineeList extends Component {
         <Query
           query={gql`
             query {
-              getTraineeDetail(limit: 5, skip: 225) {
+              getTraineeDetail(limit: 5, skip: 245) {
                 _id
                 name
                 email
@@ -257,43 +273,43 @@ class TraineeList extends Component {
           {({ loading, error, data }) => {
             console.log(data);
             return (
-            <Table
-              loading={loading}
-              id="id"
-              data={data.getTraineeDetail || []}
-              column={[
-                { field: "name", label: "Name", align: "center" },
-                {
-                  field: "email",
-                  label: "Email Address",
-                  format: value => value && value.toUpperCase()
-                },
-                {
-                  field: "createdAt",
-                  label: "Date",
-                  align: "right",
-                  format: this.getDateFormatted
-                }
-              ]}
-              actions={[
-                {
-                  icon: <EditIcon />,
-                  handler: this.handleEditDialogueOpen
-                },
-                {
-                  icon: <DeleteIcon />,
-                  handler: this.handleRemoveDialogueOpen
-                }
-              ]}
-              orderBy={orderBy}
-              order={order}
-              onSort={this.handleSort}
-              onSelect={this.handleSelect}
-              count={400}
-              page={page}
-              onChangePage={this.handleChangePage}
-            />
-            )
+              <Table
+                loading={loading}
+                id="id"
+                data={data.getTraineeDetail || []}
+                column={[
+                  { field: "name", label: "Name", align: "center" },
+                  {
+                    field: "email",
+                    label: "Email Address",
+                    format: value => value && value.toUpperCase()
+                  },
+                  {
+                    field: "createdAt",
+                    label: "Date",
+                    align: "right",
+                    format: this.getDateFormatted
+                  }
+                ]}
+                actions={[
+                  {
+                    icon: <EditIcon />,
+                    handler: this.handleEditDialogueOpen
+                  },
+                  {
+                    icon: <DeleteIcon />,
+                    handler: this.handleRemoveDialogueOpen
+                  }
+                ]}
+                orderBy={orderBy}
+                order={order}
+                onSort={this.handleSort}
+                onSelect={this.handleSelect}
+                count={400}
+                page={page}
+                onChangePage={this.handleChangePage}
+              />
+            );
           }}
         </Query>
         {/* <ul>
@@ -308,4 +324,4 @@ class TraineeList extends Component {
   }
 }
 
-export default LocalStorageMethods(withSnackBarConsumer(TraineeList));
+export default withApollo(LocalStorageMethods(withSnackBarConsumer(TraineeList)));

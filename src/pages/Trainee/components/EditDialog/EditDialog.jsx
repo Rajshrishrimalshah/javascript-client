@@ -7,12 +7,14 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Mail from "@material-ui/icons/Mail";
+import { gql } from "apollo-boost";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Button from "@material-ui/core/Button";
 import { Grid, TextField } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { withSnackBarConsumer } from "../../../../contexts/snackBarProvider/withSnackBarConsumer";
+import { withApollo } from "react-apollo";
 
 const styles = theme => ({
   root: {
@@ -41,44 +43,75 @@ class EditDialog extends React.PureComponent {
   };
 
   handleSubmit = async () => {
+    console.log("Hello from EditDEMO");
     const { name, email, _id } = this.state;
-    const { snackBarOpen, onClose, reloadTable } = this.props;
-
+    const { snackBarOpen, onClose, reloadTable, client } = this.props;
+    const id = _id;
     this.setState({
       loading: true
     });
-    try {
-      const res = await callApi({
-        url: process.env.REACT_APP_BASE_URL + process.env.REACT_APP_UPDATE_URL,
-        method: "put",
-        data: {
-          id: _id,
-          name,
-          email
+
+    const UPDATE_TRAINEE1 = gql`
+      mutation updateTrainee($id: String, $name: String, $email: String) {
+        updateTrainee(id: $id, name: $name, email: $email) {
+          message
+          data {
+            id
+          }
         }
-      });
-      snackBarOpen(res.data.message, "success");
-      console.log("success", res);
-      this.setState({
-        loading: false
-      });
-      onClose();
-      reloadTable();
-    } catch (error) {
-      const err = error.response.data.message;
-      snackBarOpen(err, "error");
-      this.setState({
-        loading: false
-      });
-      onClose();
-    }
+      }
+    `;
+
+    try {
+    const res = await client.mutate({
+      mutation: UPDATE_TRAINEE1,
+      variables: { id, name, email }
+    });
+    snackBarOpen(res.data.updateTrainee.message, "success");
+  }catch(error){
+    console.log("EditDialog Error",error);
+    snackBarOpen(error.message, "error");
+  }
+    //console.log("User Updated :- ", res);
+    this.setState({
+      loading: false
+    });
+
+    onClose();
+    // try {
+    //   const res = await callApi({
+    //     url: process.env.REACT_APP_BASE_URL + process.env.REACT_APP_UPDATE_URL,
+    //     method: "put",
+    //     data: {
+    //       id: _id,
+    //       name,
+    //       email
+    //     }
+    //   });
+
+    //   console.log("success", res);
+    //   this.setState({
+    //     loading: false
+    //   });
+    //   onClose();
+    //   reloadTable();
+    // } catch (error) {
+    //   const err = error.response.data.message;
+    //   snackBarOpen(err, "error");
+    //   this.setState({
+    //     loading: false
+    //   });
+    //   onClose();
+    // }
   };
 
   render() {
     const { open, onClose, classes, snackBarOpen } = this.props;
     //console.log(this.state);
     const { name, email, loader, button, loading, _id } = this.state;
-    console.log(_id);
+
+    console.log(this.props.client);
+
     return (
       <Dialog open={open} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Edit Trainee Details</DialogTitle>
@@ -150,4 +183,4 @@ class EditDialog extends React.PureComponent {
     );
   }
 }
-export default withSnackBarConsumer(withStyles(styles)(EditDialog));
+export default withApollo(withSnackBarConsumer(withStyles(styles)(EditDialog)));
