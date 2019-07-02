@@ -31,8 +31,8 @@ class EditDialog extends React.PureComponent {
   constructor(props) {
     super(props);
     const { data } = props;
-    const { name, email, _id } = data;
-    this.state = { name, email, _id, button: true, loading: false };
+    const { name, email, originalId } = data;
+    this.state = { name, email, originalId, button: true, loading: false };
   }
 
   handleInputChange = event => {
@@ -44,9 +44,9 @@ class EditDialog extends React.PureComponent {
 
   handleSubmit = async () => {
     console.log("Hello from EditDEMO");
-    const { name, email, _id } = this.state;
+    const { name, email, originalId } = this.state;
     const { snackBarOpen, onClose, reloadTable, client } = this.props;
-    const id = _id;
+    const id = originalId;
     this.setState({
       loading: true
     });
@@ -67,12 +67,14 @@ class EditDialog extends React.PureComponent {
       mutation: UPDATE_TRAINEE1,
       variables: { id, name, email }
     });
+
+    console.log(res);
     snackBarOpen(res.data.updateTrainee.message, "success");
+
   }catch(error){
     console.log("EditDialog Error",error);
     snackBarOpen(error.message, "error");
   }
-    //console.log("User Updated :- ", res);
     this.setState({
       loading: false
     });
@@ -107,10 +109,7 @@ class EditDialog extends React.PureComponent {
 
   render() {
     const { open, onClose, classes, snackBarOpen } = this.props;
-    //console.log(this.state);
     const { name, email, loader, button, loading, _id } = this.state;
-
-    console.log(this.props.client);
 
     return (
       <Dialog open={open} aria-labelledby="form-dialog-title">

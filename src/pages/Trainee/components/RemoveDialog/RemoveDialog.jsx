@@ -27,8 +27,8 @@ class RemoveDialog extends React.PureComponent {
   constructor(props) {
     super(props);
     const { data } = props;
-    const { name, email, _id } = data;
-    this.state = { name, email, _id, button: false, loading: false };
+    const { name, email, originalId } = data;
+    this.state = { name, email, originalId, button: false, loading: false };
   }
 
   handleInputChange = event => {
@@ -42,17 +42,17 @@ class RemoveDialog extends React.PureComponent {
 
   handleSubmit = async () => {
     const { onSubmit, data, onClose } = this.props;
-    const { snackBarOpen, reloadTable, client,  } = this.props;
-    const { _id } = data;
-    const id = _id;
-
+    const { snackBarOpen, reloadTable, client } = this.props;
+    const { originalId } = data;
+    console.log("_id:-", data._id);
+    const id = originalId;
     this.setState({
-          loading: true,
-          button: false
-        });
+      loading: true,
+      button: false
+    });
 
     const DELETE_TRAINEE = gql`
-      mutation deleteTrainee($id: String){
+      mutation deleteTrainee($id: String) {
         deleteTrainee(id: $id) {
           message
           data {
@@ -62,13 +62,18 @@ class RemoveDialog extends React.PureComponent {
       }
     `;
 
-    const  res  = await client.mutate({
-      mutation: DELETE_TRAINEE,
-      variables: {id}
-    })
-    snackBarOpen(res.data.deleteTrainee.message, "success");
+    try {
+      const { res, error, loading } = await client.mutate({
+        mutation: DELETE_TRAINEE,
+        variables: { id }
+      });
+      snackBarOpen(res.data.deleteTrainee.message, "success");
+    } catch (error) {
+      snackBarOpen(error.message, "error");
+    }
+
     this.setState({
-      loading: false,
+      loading: false
     });
     onClose();
     // try {
@@ -102,7 +107,6 @@ class RemoveDialog extends React.PureComponent {
   render() {
     const { open, onClose, classes } = this.props;
     const { button, loading } = this.state;
-
     return (
       <Dialog
         open={open}

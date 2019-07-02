@@ -261,17 +261,17 @@ class TraineeList extends Component {
         <Query
           query={gql`
             query {
-              getTraineeDetail(limit: 5, skip: 245) {
+              getTraineeDetail(limit: 10, skip: 235) {
                 _id
                 name
                 email
                 role
+                originalId
               }
             }
           `}
         >
           {({ loading, error, data }) => {
-            console.log(data);
             return (
               <Table
                 loading={loading}
