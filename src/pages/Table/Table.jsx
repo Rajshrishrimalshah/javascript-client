@@ -66,25 +66,27 @@ class TablePage extends Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((row, index) => (
-              <TableRow key={row.name} hover selected={index % 2 === 0}>
-                {column.map(column => (
-                  <TableCell component="th" scope="row" align={column.align}>
-                    {column.format
-                      ? column.format(row[column.field])
-                      : row[column.field]}
-                  </TableCell>
-                ))}
-                {actions.map(({ icon, handler }) => (
-                  <IconButton
-                    className={classes.button}
-                    onClick={() => handler(row)}
-                  >
-                    {icon}
-                  </IconButton>
-                ))}
-              </TableRow>
-            ))}
+            {data.map((row, index) => {
+              return (
+                <TableRow key={row.name} hover selected={index % 2 === 0}>
+                  {column.map(column => (
+                    <TableCell component="th" scope="row" align={column.align}>
+                      {column.format
+                        ? column.format(row[column.field])
+                        : row[column.field]}
+                    </TableCell>
+                  ))}
+                  {actions.map(({ icon, handler }) => (
+                    <IconButton
+                      className={classes.button}
+                      onClick={() => handler(row)}
+                    >
+                      {icon}
+                    </IconButton>
+                  ))}
+                </TableRow>
+              );
+            })}
           </TableBody>
           <TablePagination
             rowsPerPageOptions={[]}

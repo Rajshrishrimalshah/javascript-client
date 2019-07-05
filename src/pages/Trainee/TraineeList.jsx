@@ -20,7 +20,6 @@ import { withSnackBarConsumer } from "../../contexts/snackBarProvider/withSnackB
 import { callApi } from "../../lib/utils/api";
 import * as dotenv from "dotenv";
 
-
 dotenv.config();
 
 class TraineeList extends Component {
@@ -43,13 +42,9 @@ class TraineeList extends Component {
       data: [],
       loading: true,
       skip: 0,
-      limit: 5
+      limit: 10
     };
   }
-
-  componentDidMount = async () => {
-    //this.reloadTable();
-  };
 
   reloadTable = async () => {
     const { snackBarOpen } = this.props;
@@ -121,12 +116,12 @@ class TraineeList extends Component {
 
   handleDataParent = (name, email, password) => async event => {
     console.log("ADDED TRAINEE HANDLER");
-    const CREATE_TRAINEE1= gql`
-    mutation createTrainee($name: String, $email: String, $password: String){
-      createTrainee(name: $name, email:$email ,password:$password){
-        message
+    const CREATE_TRAINEE1 = gql`
+      mutation createTrainee($name: String, $email: String, $password: String) {
+        createTrainee(name: $name, email: $email, password: $password) {
+          message
+        }
       }
-    }
     `;
     const { user, open } = this.state;
     const { snackBarOpen, getItem, client } = this.props;
@@ -136,7 +131,7 @@ class TraineeList extends Component {
     const { data } = await client.mutate({
       mutation: CREATE_TRAINEE1,
       variables: { name, email, password }
-    })
+    });
     console.log("Data: ", data);
     snackBarOpen(data.createTrainee.message, "success");
     this.setState({
@@ -175,39 +170,27 @@ class TraineeList extends Component {
       orderBy: property
     });
   };
+
   handleChangePage = async (event, newPage) => {
+    console.log("newPage value ==>", newPage);
     const { snackBarOpen } = this.props;
-    const { loader, data, loading, skip, limit } = this.state;
+    const {
+      loader,
+      data,
+      loading,
+      skip,
+      limit,
+      orderBy,
+      order,
+      page
+    } = this.state;
 
     this.setState({
       page: newPage,
-      skip: skip + 5,
+      skip: limit * newPage,
 
       loading: true
     });
-
-    try {
-      const res = await callApi({
-        url: `${process.env.REACT_APP_BASE_URL}${
-          process.env.REACT_APP_FETCH_DETAIL
-        }`,
-        params: { skip, limit },
-        method: "get"
-      });
-      console.log("success", res.data.data.records);
-      this.setState({
-        loading: false,
-        data: res.data.data.records
-      });
-    } catch (error) {
-      const err = error.response.data.message;
-      snackBarOpen(err, "error");
-      this.setState({
-        loading: false
-      });
-    }
-
-    console.log("state values skip", skip, "limit", limit);
   };
 
   clickHandler = () => {
@@ -227,7 +210,9 @@ class TraineeList extends Component {
       openDeleteDialog,
       currentUser,
       loading,
-      data
+      data,
+      skip,
+      limit
     } = this.state;
     const { match } = this.props;
     return (
@@ -260,8 +245,8 @@ class TraineeList extends Component {
 
         <Query
           query={gql`
-            query {
-              getTraineeDetail(limit: 10, skip: 235) {
+            query getTraineeDetail($limit: Int, $skip: Int) {
+              getTraineeDetail(limit: $limit, skip: $skip) {
                 _id
                 name
                 email
@@ -270,6 +255,7 @@ class TraineeList extends Component {
               }
             }
           `}
+          variables={{ limit, skip }}
         >
           {({ loading, error, data }) => {
             return (
@@ -324,4 +310,6 @@ class TraineeList extends Component {
   }
 }
 
-export default withApollo(LocalStorageMethods(withSnackBarConsumer(TraineeList)));
+export default withApollo(
+  LocalStorageMethods(withSnackBarConsumer(TraineeList))
+);
