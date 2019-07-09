@@ -8,7 +8,6 @@ import {
 } from "../../configs/constant";
 import RadioButton from "../../components/Radio/Radio";
 
-
 class InputDemo extends React.Component {
   constructor(props) {
     super(props);
@@ -23,13 +22,13 @@ class InputDemo extends React.Component {
     this.setState({ sports: event.target.value });
   };
 
-  handleCricketChange = (event) => {
-    this.setState({Cricket: event.target.value});
-  }
+  handleCricketChange = event => {
+    this.setState({ Cricket: event.target.value });
+  };
 
-  handleFootballChange = (event) => {
-    this.setState({Football: event.target.value});
-  }
+  handleFootballChange = event => {
+    this.setState({ Football: event.target.value });
+  };
 
   renderOptions = () => {
     const { sports } = this.state;
@@ -39,11 +38,23 @@ class InputDemo extends React.Component {
     }
 
     if (sports === "Cricket") {
-      return <RadioButton options={CRICKET_PLAYER} name="role" onChange={this.handleCricketChange} />;
+      return (
+        <RadioButton
+          options={CRICKET_PLAYER}
+          name="role"
+          onChange={this.handleCricketChange}
+        />
+      );
     }
 
     if (sports === "Football") {
-      return <RadioButton options={FOOTBALL_PLAYER} name="role" onChange={this.handleFootballChange } />;
+      return (
+        <RadioButton
+          options={FOOTBALL_PLAYER}
+          name="role"
+          onChange={this.handleFootballChange}
+        />
+      );
     }
   };
 
@@ -66,6 +77,5 @@ class InputDemo extends React.Component {
     );
   }
 }
-
 
 export default InputDemo;

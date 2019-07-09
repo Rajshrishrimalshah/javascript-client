@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import PropTypes from "prop-types";
-
 
 class Radio extends Component {
   constructor(props) {
@@ -10,30 +9,36 @@ class Radio extends Component {
     };
   }
 
-  handleChange = (event) => {
+  handleChange = event => {
     this.setState({ value: event.target.value });
-  }
+  };
 
   render() {
-    console.log(this.props.player)
+    console.log(this.props.player);
 
     const { options, onChange, name, value } = this.props;
     console.log(value);
-    const radioOptions = options.map(({ label, value}) => (
-      <React.Fragment key={value} >
-        <input type="radio" value={value} name={name} onChange={onChange} />
-        {label}
+    const radioOptions = options.map(({ label, value }) => (
+      <React.Fragment key={value}>
+        <input
+          type="radio"
+          value={value}
+          name={name}
+          id={value}
+          onChange={onChange}
+        />
+        <label htmlFor={value}> {label} </label>
         <br />
       </React.Fragment>
     ));
-  return radioOptions;
-}
+    return radioOptions;
+  }
 }
 
 Radio.defaultProps = {
   error: "",
   options: []
-}
+};
 
 Radio.propTypes = {
   error: PropTypes.string,
@@ -42,9 +47,8 @@ Radio.propTypes = {
 
   options: PropTypes.shape({
     label: PropTypes.string,
-    value: PropTypes.string,
+    value: PropTypes.string
   }).isRequired
-}
+};
 
 export default Radio;
-
