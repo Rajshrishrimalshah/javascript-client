@@ -1,31 +1,32 @@
+/* eslint-disable no-unused-vars */
 import React, { Component } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import InputAdornment from '@material-ui/core/InputAdornment';
-import IconButton from '@material-ui/core/IconButton';
+import InputAdornment from "@material-ui/core/InputAdornment";
+import IconButton from "@material-ui/core/IconButton";
 import TextField from "@material-ui/core/TextField";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Mail from "@material-ui/icons/Mail";
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import validationSchema from "./validationSchema";
 
 const style = theme => ({
   "@global": {
     body: {
-      backgroundColor: theme.palette.common.white,
-
+      backgroundColor: theme.palette.common.white
     }
   },
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
-    alignItems: "center"
+    alignItems: "center",
+    boxShadow: " 2px 0px 0px 53px rgba(255,255,255,1)"
   },
   avatar: {
     margin: theme.spacing(1),
@@ -34,8 +35,7 @@ const style = theme => ({
   },
   form: {
     width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-
+    marginTop: theme.spacing(1)
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
@@ -51,12 +51,15 @@ class SignIn extends Component {
       showPassword: false,
       errors: {},
       isTouch: [],
-      button: true,
+      button: true
     };
   }
 
   handleFieldChange = event => {
-    this.setState({ [event.target.name]: event.target.value}, this.handleValidator );
+    this.setState(
+      { [event.target.name]: event.target.value },
+      this.handleValidator
+    );
   };
 
   handleClickShowPassword = () => {
@@ -68,7 +71,7 @@ class SignIn extends Component {
     let ErrorObj = {};
     const { email, password } = this.state;
     const valid = validationSchema
-      .validate({ email, password}, { abortEarly: false })
+      .validate({ email, password }, { abortEarly: false })
       .then(success => {
         this.setState({
           errors: {},
@@ -83,7 +86,7 @@ class SignIn extends Component {
         });
         this.setState({
           errors: ErrorObj,
-          button: true,
+          button: true
         });
       });
   };
@@ -126,8 +129,6 @@ class SignIn extends Component {
     );
   };
 
-
-
   render() {
     const { classes } = this.props;
     const { showPassword, button } = this.state;
@@ -145,49 +146,50 @@ class SignIn extends Component {
           </Typography>
           <form className={classes.form} noValidate>
             <TextField
-                required
-                  name="email"
-                  id="outlined-required"
-                  label="Email Address"
-                  defaultValue=""
-                  margin="normal"
-                  variant="outlined"
-                  fullWidth
-                  onChange={this.handleFieldChange}
-                  error={this.getErrorBool("email")}
-                  onBlur={this.blurHandler("email")}
-                  helperText={this.getError("email")}
-                  InputProps={{
-          startAdornment: (
-                      <InputAdornment position="start">
-                        <Mail />
-                      </InputAdornment>
-                    ),
-                  }}
+              required
+              name="email"
+              id="outlined-required"
+              label="Email Address"
+              defaultValue=""
+              margin="normal"
+              variant="outlined"
+              fullWidth
+              onChange={this.handleFieldChange}
+              error={this.getErrorBool("email")}
+              onBlur={this.blurHandler("email")}
+              helperText={this.getError("email")}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Mail />
+                  </InputAdornment>
+                )
+              }}
             />
             <TextField
               fullWidth
               name="password"
               id="outlined-adornment-password"
               variant="outlined"
-              type={showPassword ? 'text' : 'password'}
+              type={showPassword ? "text" : "password"}
               label="Password"
               onChange={this.handleFieldChange}
               error={this.getErrorBool("password")}
               onBlur={this.blurHandler("password")}
               helperText={this.getError("password")}
               InputProps={{
-        startAdornment: (
-        <InputAdornment position="start">
-          <IconButton
-            edge="start"
-            aria-label="Toggle password visibility"
-            onClick={this.handleClickShowPassword}>
-            {showPassword ? <VisibilityOff /> : <Visibility />}
-          </IconButton>
-        </InputAdornment>
-      ),
-    }}
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <IconButton
+                      edge="start"
+                      aria-label="Toggle password visibility"
+                      onClick={this.handleClickShowPassword}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
             />
 
             <Button
