@@ -1,15 +1,16 @@
-import React, { Component } from 'react';
+/* eslint-disable no-unused-vars */
+import React, { Component } from "react";
 import Button from "@material-ui/core/Button";
-import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import Grid from "@material-ui/core/Grid";
+import IconButton from "@material-ui/core/IconButton";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import AccountCircle from "@material-ui/icons/AccountCircle";
 import Mail from "@material-ui/icons/Mail";
-import TextField from '@material-ui/core/TextField';
+import TextField from "@material-ui/core/TextField";
 import validationSchema from "./components/AddDialog/ValidationSchema";
-import Paper from '@material-ui/core/Paper';
+import Paper from "@material-ui/core/Paper";
 
 class Form extends Component {
   constructor(props) {
@@ -23,11 +24,15 @@ class Form extends Component {
       isTouch: [],
       button: true,
       showPassword: false,
+      confirmPassword: false
     };
   }
 
   handleFieldChange = event => {
-    this.setState({ [event.target.name]: event.target.value }, this.handleValidator);
+    this.setState(
+      { [event.target.name]: event.target.value },
+      this.handleValidator
+    );
   };
 
   handleClickShowPassword = () => {
@@ -35,12 +40,19 @@ class Form extends Component {
     this.setState({ showPassword: !showPassword });
   };
 
+  handleClickConfirmPassword = () => {
+    const { confirmPassword } = this.state;
+    this.setState({ confirmPassword: !confirmPassword });
+  };
 
   handleValidator = () => {
     let ErrorObj = {};
-    const { name, email, password, confirm_password  } = this.state;
+    const { name, email, password, confirm_password } = this.state;
     const valid = validationSchema
-      .validate({ name, email, password, confirm_password }, { abortEarly: false })
+      .validate(
+        { name, email, password, confirm_password },
+        { abortEarly: false }
+      )
       .then(success => {
         this.setState({
           errors: {},
@@ -55,17 +67,9 @@ class Form extends Component {
         });
         this.setState({
           errors: ErrorObj,
-          button: true,
+          button: true
         });
       });
-  };
-
-  passwordValidation= () => {
-    const { password, confirm_password } = this.state;
-    if ( password !== confirm_password) {
-        return "Password is not matching";
-    }
-    return null;
   };
 
   hasErrors = value => {
@@ -106,137 +110,146 @@ class Form extends Component {
     );
   };
 
+  render() {
+    const {
+      name,
+      email,
+      password,
+      showPassword,
+      button,
+      confirmPassword
+    } = this.state;
+    const { handlerFromParent, clickHandler } = this.props;
+    const style = {
+      margin: 12,
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "flex-end"
+    };
 
-
-render() {
-  const { name, email, password, showPassword, button } = this.state;
-  const { handlerFromParent, clickHandler } = this.props;
-  const style = {
-    margin: 12,
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "flex-end",
-  };
-
-  return (
-    <>
-      <Paper  style={style}>
-      <Grid container spacing={3}>
+    return (
+      <>
+        <Paper style={style}>
+          <Grid container spacing={3}>
             <Grid item xs={12}>
-                <TextField
-                  required
-                  name="name"
-                  id="outlined-required"
-                  label="Name"
-                  defaultValue=""
-                  margin="normal"
-                  variant="outlined"
-                  fullWidth
-                  onChange={this.handleFieldChange}
-                  error={this.getError("name")}
-                  onBlur={this.blurHandler("name")}
-                  helperText={this.getError("name")}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <AccountCircle />
-                      </InputAdornment>
-                    ),
-                  }}
+              <TextField
+                required
+                name="name"
+                id="outlined-required"
+                label="Name"
+                defaultValue=""
+                margin="normal"
+                variant="outlined"
+                fullWidth
+                onChange={this.handleFieldChange}
+                error={this.getError("name")}
+                onBlur={this.blurHandler("name")}
+                helperText={this.getError("name")}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <AccountCircle />
+                    </InputAdornment>
+                  )
+                }}
               />
             </Grid>
 
             <Grid item xs={12}>
-                <TextField
-                  required
-                  name="email"
-                  id="outlined-required"
-                  label="Email Address"
-                  defaultValue=""
-                  margin="normal"
-                  variant="outlined"
-                  fullWidth
-                  onChange={this.handleFieldChange}
-                  error={this.getErrorBool("email")}
-                  onBlur={this.blurHandler("email")}
-                  helperText={this.getError("email")}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Mail />
-                      </InputAdornment>
-                    ),
-                  }}
-
+              <TextField
+                required
+                name="email"
+                id="outlined-required"
+                label="Email Address"
+                defaultValue=""
+                margin="normal"
+                variant="outlined"
+                fullWidth
+                onChange={this.handleFieldChange}
+                error={this.getErrorBool("email")}
+                onBlur={this.blurHandler("email")}
+                helperText={this.getError("email")}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Mail />
+                    </InputAdornment>
+                  )
+                }}
               />
             </Grid>
 
             <Grid item xs={6}>
-
-                <TextField
-                  name="password"
-                  id="outlined-adornment-password"
-                  variant="outlined"
-                  type={showPassword ? 'text' : 'password'}
-                  label="Password"
-                  onChange={this.handleFieldChange}
-                  error={this.getErrorBool("password")}
-                  onBlur={this.blurHandler("password")}
-                  helperText={this.getError("password")}
-                  InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <IconButton
-                edge="start"
-                aria-label="Toggle password visibility"
-                onClick={this.handleClickShowPassword}>
-                {showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-        />
+              <TextField
+                name="password"
+                id="outlined-adornment-password"
+                variant="outlined"
+                type={showPassword ? "text" : "password"}
+                label="Password"
+                onChange={this.handleFieldChange}
+                error={this.getErrorBool("password")}
+                onBlur={this.blurHandler("password")}
+                helperText={this.getError("password")}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <IconButton
+                        edge="start"
+                        aria-label="Toggle password visibility"
+                        onClick={this.handleClickShowPassword}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
             </Grid>
 
             <Grid item xs={6}>
-            <TextField
-                  id="outlined-adornment-password"
-                  variant="outlined"
-                  type={showPassword ? 'text' : 'password'}
-                  label="Confirm Password"
-                  name="confirm_password"
-                  onChange={this.handleFieldChange}
-                  error={this.getErrorBool("confirm_password")}
-                  onBlur={this.blurHandler("confirm_password")}
-                  helperText={this.getError("confirm_password") || this.passwordValidation}
-                  InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <IconButton
-                edge="start"
-                aria-label="Toggle password visibility"
-                onClick={this.handleClickShowPassword}>
-                {showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
-            />
+              <TextField
+                id="outlined-adornment-password"
+                variant="outlined"
+                type={confirmPassword ? "text" : "password"}
+                label="Confirm Password"
+                name="confirm_password"
+                onChange={this.handleFieldChange}
+                error={this.getErrorBool("confirm_password")}
+                onBlur={this.blurHandler("confirm_password")}
+                helperText={this.getError("confirm_password")}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <IconButton
+                        edge="start"
+                        aria-label="Toggle password visibility"
+                        onClick={this.handleClickConfirmPassword}
+                      >
+                        {confirmPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
             </Grid>
-            </Grid>
-            </Paper>
+          </Grid>
+        </Paper>
 
-          <div style={style}>
-            <Button  color="primary" onClick={clickHandler} >
-              Cancel
-            </Button>
-            <Button  color="primary" disabled={button} onClick={handlerFromParent(name, email, password)}  >
-              Submit
-            </Button>
-          </div>
-    </>
-);
-}
+        <div style={style}>
+          <Button color="primary" onClick={clickHandler}>
+            Cancel
+          </Button>
+          <Button
+            color="primary"
+            disabled={button}
+            onClick={handlerFromParent(name, email, password)}
+          >
+            Submit
+          </Button>
+        </div>
+      </>
+    );
+  }
 }
 
 export default Form;

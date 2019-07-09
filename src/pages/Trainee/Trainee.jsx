@@ -30,11 +30,24 @@ class Trainee extends Component {
     user["password"] = password;
     this.setState({
       open: open ? false : true,
-      user
+      user: {
+        name: name,
+        email: email,
+        password: password
+      }
     });
 
     console.log(this.state.user);
+    //Set state is working as expected using below code
+    // this.setState(prevState => {
+    //   let user = Object.assign({}, prevState.user); // creating copy of state variable jasper
+    //   user.name = name; // update the name property, assign a new value
+    //   user.email = email;
+    //   user.password = password;
+    //   return { user }; // return new object user object
+    // });
 
+    // console.log("State inside handleDataFromParent :-", this.state);
   };
 
   render() {
@@ -46,7 +59,10 @@ class Trainee extends Component {
           Add Trainee
         </Button>
         <AddDialog openProp={open} clickHandler={this.handleClick}>
-          <Form handlerFromParent={this.handleDataParent} clickHandler={this.handleClick} />
+          <Form
+            handlerFromParent={this.handleDataParent}
+            clickHandler={this.handleClick}
+          />
         </AddDialog>
       </>
     );
