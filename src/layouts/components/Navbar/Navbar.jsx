@@ -16,6 +16,9 @@ const style = theme => ({
   },
   title: {
     flexGrow: 1
+  },
+  button: {
+    color: "white"
   }
 });
 
@@ -32,31 +35,22 @@ class ButtonAppBar extends Component {
             </Typography>
 
             <Link to="/trainee">
-              <Button>
-                Trainee
-              </Button>
+              <Button className={classes.button}>Trainee</Button>
             </Link>
 
             <Link to="/textFieldDemo">
-              <Button>
-                TEXTFIELD DEMO
-              </Button>
+              <Button className={classes.button}>TEXTFIELD DEMO</Button>
             </Link>
 
             <Link to="/inputDemo">
-              <Button>
-                INPUT DEMO
-              </Button>
+              <Button className={classes.button}>INPUT DEMO</Button>
             </Link>
 
             <Link to="/childrenDemo">
-              <Button>
-                children DEMO
-              </Button>
+              <Button className={classes.button}>children DEMO</Button>
             </Link>
 
             <Button color="inherit">LOGOUT</Button>
-
           </Toolbar>
         </AppBar>
       </div>
