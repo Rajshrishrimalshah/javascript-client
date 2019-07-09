@@ -28,32 +28,35 @@ axios.interceptors.request.use(
 );
 
 const client = new ApolloClient({
-  uri: "http://localhost:4000/",
+  uri: "http://localhost:4000/graphql",
   headers: {
-    Authorization : localStorage.getItem('token'),
-  },
+    Authorization: localStorage.getItem("token")
+  }
 });
-
 
 const App = () => (
   <ApolloProvider client={client}>
-  <SimpleSnackbar>
-    <MuiThemeProvider theme={theme}>
-      <BrowserRouter>
-        <Switch>
-          <PrivateRoute exact path="/trainee" component={Trainee} />
-          <PrivateRoute exact path="/textFieldDemo" component={TextFieldDemo} />
-          <PrivateRoute exact path="/inputDemo" component={InputDemo} />
-          <PrivateRoute exact path="/childrenDemo" component={ChildrenDemo} />
-          <PrivateRoute path="/trainee" component={Trainee} />
+    <SimpleSnackbar>
+      <MuiThemeProvider theme={theme}>
+        <BrowserRouter>
+          <Switch>
+            <PrivateRoute exact path="/trainee" component={Trainee} />
+            <PrivateRoute
+              exact
+              path="/textFieldDemo"
+              component={TextFieldDemo}
+            />
+            <PrivateRoute exact path="/inputDemo" component={InputDemo} />
+            <PrivateRoute exact path="/childrenDemo" component={ChildrenDemo} />
+            <PrivateRoute path="/trainee" component={Trainee} />
 
-          <AuthRoute exact path="/login" component={Login} />
-          <PrivateRoute exact path="/" component={Trainee} />
-          <Route component={NoMatch} />
-        </Switch>
-      </BrowserRouter>
-    </MuiThemeProvider>
-  </SimpleSnackbar>
+            <AuthRoute exact path="/login" component={Login} />
+            <PrivateRoute exact path="/" component={Trainee} />
+            <Route component={NoMatch} />
+          </Switch>
+        </BrowserRouter>
+      </MuiThemeProvider>
+    </SimpleSnackbar>
   </ApolloProvider>
 );
 

@@ -41,7 +41,7 @@ class TraineeList extends Component {
       loader: true,
       data: [],
       loading: true,
-      skip: 0,
+      skip: 280,
       limit: 10
     };
   }
