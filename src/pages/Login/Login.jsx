@@ -26,7 +26,10 @@ const style = theme => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    boxShadow: " 2px 0px 0px 53px rgba(255,255,255,1)"
+    background: "#fff",
+    borderRadius: "2px",
+    padding: "8px",
+    boxShadow: "1px 2px 1px #d1d1d1"
   },
   avatar: {
     margin: theme.spacing(1),
