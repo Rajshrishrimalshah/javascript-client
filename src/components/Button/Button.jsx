@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import ButtonStyle from "./style"
+import ButtonStyle from "./style";
 class Button extends Component {
-
   container = {
     backgroundColor: "green",
     border: "1 solid black",
@@ -17,12 +16,20 @@ class Button extends Component {
   render() {
     const { disabled, value, style, ...rest } = this.props;
     const { submitStyle, plainStyle } = ButtonStyle;
-    const buttonStyle = disabled ? plainStyle : submitStyle ;
+    let buttonStyle = value
+      ? { ...plainStyle, backgroundColor: "white" }
+      : { ...submitStyle, backgroundColor: "white" };
+
+    if (value === "Submit" && disabled === false) {
+      buttonStyle = { ...plainStyle, backgroundColor: "green" };
+    }
+
     return (
       <div>
-
-      <button disabled={disabled} style={buttonStyle} {...rest}> {value} </button>
-
+        <button disabled={disabled} style={buttonStyle} {...rest}>
+          {" "}
+          {value}{" "}
+        </button>
       </div>
     );
   }

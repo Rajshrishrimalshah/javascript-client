@@ -5,7 +5,6 @@ export const validationSchema = yup.object().shape({
     .string()
     .required("Name is a required field")
     .min(3),
-  sports: yup
-    .string()
-    .required("Sport is a require field"),
+  sports: yup.string().required("Sport is a require field"),
+  role: yup.string().required("Player is required field")
 });

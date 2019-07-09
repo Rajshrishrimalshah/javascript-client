@@ -3,7 +3,6 @@ import { input } from "./style";
 import PropTypes from "prop-types";
 
 class SelectBox extends Component {
-
   handleChange = event => {
     this.setState({ value: event.target.value });
   };
@@ -12,7 +11,11 @@ class SelectBox extends Component {
     const { sports, onChange, error, name, onBlur, ...rest } = this.props;
 
     const sportList = sports.map(name => {
-      return <option value={name.value}>{name.label}</option>;
+      return (
+        <option value={name.value} key={name.value}>
+          {name.label}
+        </option>
+      );
     });
 
     return (
@@ -20,7 +23,7 @@ class SelectBox extends Component {
         <select onChange={onChange} style={input} onBlur={onBlur} {...rest}>
           {sportList}
         </select>
-        <span style={{ color: "red" }}> {error}</span>
+        {error ? <span style={{ color: "red" }}> {error}</span> : ""}
       </>
     );
   }
@@ -33,13 +36,14 @@ SelectBox.defaultProps = {
 
 SelectBox.propTypes = {
   error: PropTypes.string,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
 
-  options: PropTypes.shape({
-    label: PropTypes.string,
-    value: PropTypes.string
-  }).isRequired
+  options: PropTypes.array.isRequired
+  // options: PropTypes.shape({
+  //   label: PropTypes.string,
+  //   value: PropTypes.string
+  // }).isRequired
 };
 
 export default SelectBox;

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import { InputBox } from "../../components/TextField/TextField";
 import SelectBox from "../../components/SelectBox/SelectBox";
@@ -21,6 +22,7 @@ class InputDemo extends React.Component {
       errors: {},
       isTouch: [],
       button: true,
+      role: ""
     };
   }
 
@@ -33,31 +35,38 @@ class InputDemo extends React.Component {
   };
 
   handleCricketChange = event => {
-    this.setState({ Cricket: event.target.value });
+    this.setState(
+      { Cricket: event.target.value, role: event.target.value },
+      this.handleValidator
+    );
   };
 
   handleFootballChange = event => {
-    this.setState({ Football: event.target.value });
+    this.setState(
+      { Football: event.target.value, role: event.target.value },
+      this.handleValidator
+    );
   };
-  0;
+
   blurHandler = event => () => {
     const { isTouch } = this.state;
     if (!isTouch.includes(event)) {
       isTouch.push(event);
     }
-    this.setState(
-      {
-        isTouch
-      },
-      this.handleValidator
-    );
+    this.handleValidator();
+    // this.setState(
+    //   {
+    //     isTouch
+    //   },
+    //   this.handleValidator
+    // );
   };
 
   handleValidator = () => {
     let ErrorObj = {};
-    const { name, sports } = this.state;
+    const { name, sports, role } = this.state;
     const valid = validationSchema
-      .validate({ name, sports }, { abortEarly: false })
+      .validate({ name, sports, role }, { abortEarly: false })
       .then(success => {
         this.setState({
           errors: {},
@@ -72,7 +81,7 @@ class InputDemo extends React.Component {
         });
         this.setState({
           errors: ErrorObj,
-          button: true,
+          button: true
         });
       });
   };
@@ -116,8 +125,8 @@ class InputDemo extends React.Component {
             options={CRICKET_PLAYER}
             name="role"
             onChange={this.handleCricketChange}
-            error={this.hasErrors("role")}
-            onBlur={this.blurHandler}
+            error={this.getError("role")}
+            onBlur={this.blurHandler("role")}
           />
         </>
       );
@@ -131,8 +140,8 @@ class InputDemo extends React.Component {
             options={FOOTBALL_PLAYER}
             name="role"
             onChange={this.handleFootballChange}
-            error={this.hasErrors("role")}
-            onBlur={this.blurHandler}
+            error={this.getError("role")}
+            onBlur={this.blurHandler("role")}
           />
         </>
       );
@@ -141,7 +150,7 @@ class InputDemo extends React.Component {
 
   render() {
     console.log(this.state);
-    const { button  } = this.state;
+    const { button } = this.state;
 
     return (
       <>
@@ -169,12 +178,14 @@ class InputDemo extends React.Component {
 
         {this.renderOptions()}
 
+        <br />
+
         <div style={this.container}>
           <Button
             color="green"
             style={{ margin: "5px" }}
             value="Cancel"
-            onclick={this.handleCancelChange}
+            onClick={this.handleCancelChange}
           />
 
           <Button
@@ -182,7 +193,7 @@ class InputDemo extends React.Component {
             disabled={button}
             style={{ margin: "5px" }}
             value="Submit"
-            onclick={this.handleSubmitChange}
+            onClick={this.handleSubmitChange}
           />
         </div>
       </>
