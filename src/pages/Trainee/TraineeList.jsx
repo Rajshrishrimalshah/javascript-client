@@ -12,15 +12,13 @@ class TraineeList extends Component {
     super(props);
     this.state = {
       open: false,
-      orderBy:"",
-      order:"asc",
+      orderBy: "",
+      order: "asc",
       user: {
         name: "",
         email: "",
         password: ""
-      },
-
-
+      }
     };
   }
 
@@ -37,25 +35,24 @@ class TraineeList extends Component {
     user["email"] = email;
     user["password"] = password;
     this.setState({
-      open: open ? false : true,
+      open: open ? false : true
     });
 
     console.log(this.state.user);
   };
 
-  getFormattedDate = (date) => {
-    return moment(date).format('dddd, MMMM Do YYYY, h:mm:ss a')
-  }
+  getFormattedDate = date => {
+    return moment(date).format("dddd, MMMM Do YYYY, h:mm:ss a");
+  };
 
-  handleSort = (event, property) => {
+  handleSort = property => {
     const { order, orderBy } = this.state;
-    const isDesc = orderBy === property && order === 'desc';
-    console.log(this.state)
+    const isDesc = orderBy === property && order === "desc";
     this.setState({
-      order: isDesc ? 'asc' : 'desc',
+      order: isDesc ? "asc" : "desc",
       orderBy: property
-    })
-  }
+    });
+  };
 
   render() {
     const { open, order, orderBy } = this.state;
@@ -86,20 +83,20 @@ class TraineeList extends Component {
             {
               field: "email",
               label: "Email",
-              format: value => value && value.toUpperCase(),
+              align: "left",
+              format: value => value && value.toUpperCase()
             },
             {
               field: "createdAt",
               label: "Date",
-              align: "right",
-              format: this.getFormattedDate,
-            },
+              align: "center",
+              format: this.getFormattedDate
+            }
           ]}
           orderBy={orderBy}
           order={order}
           onSort={this.handleSort}
           onSelect={this.handleSelect}
-
         />
 
         <ul>
