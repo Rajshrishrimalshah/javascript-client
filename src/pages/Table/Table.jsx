@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -47,7 +48,7 @@ class TablePage extends Component {
                   component="th"
                   scope="row"
                   align={column.align}
-                  sortDirection={orderBy === column.id ? order : false}
+                  sortDirection={orderBy === column.field ? order : false}
                 >
                   <TableSortLabel
                     active={orderBy === column.field}
@@ -65,7 +66,9 @@ class TablePage extends Component {
               <TableRow key={row.name} hover selected={index % 2 === 0}>
                 {column.map(column => (
                   <TableCell component="th" scope="row" align={column.align}>
-                    {column.format ? column.format(row[column.field]) : row[column.field]}
+                    {column.format
+                      ? column.format(row[column.field])
+                      : row[column.field]}
                   </TableCell>
                 ))}
                 {actions.map(({ icon, handler }) => (
@@ -93,8 +96,6 @@ class TablePage extends Component {
           />
         </Table>
       </Paper>
-
-
     );
   }
 }

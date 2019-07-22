@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import AddDialog from "../Trainee/components/AddDialog/AddDialog";
 import Button from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -6,9 +7,10 @@ import EditIcon from "@material-ui/icons/Edit";
 import EditDialog from "./components/EditDialog/EditDialog";
 import Form from "../Trainee/Form";
 import moment from "moment";
+import React, { Component } from "react";
+
 import trainees from "./data/trainee";
 import Table from "../Table/Table";
-import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 class TraineeList extends Component {
