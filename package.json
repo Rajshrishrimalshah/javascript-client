@@ -3,22 +3,22 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^4.0.1",
-    "@material-ui/icons": "^4.1.0",
-    "@material-ui/styles": "^4.0.2",
-    "apollo-boost": "^0.4.3",
-    "apollo-server": "^2.6.3",
-    "axios": "^0.19.0",
-    "graphql": "^14.3.1",
-    "material-ui-icons": "^1.0.0-beta.36",
-    "moment": "^2.24.0",
-    "prop-types": "^15.7.2",
-    "react": "^16.8.6",
-    "react-apollo": "^2.5.8",
-    "react-dom": "^16.8.6",
-    "react-router-dom": "^5.0.1",
+    "@material-ui/core": "4.0.1",
+    "@material-ui/icons": "4.1.0",
+    "@material-ui/styles": "4.0.2",
+    "apollo-boost": "0.4.3",
+    "apollo-server": "2.6.3",
+    "axios": "0.19.0",
+    "graphql": "14.3.1",
+    "material-ui-icons": "1.0.0-beta.36",
+    "moment": "2.24.0",
+    "prop-types": "15.7.2",
+    "react": "16.8.6",
+    "react-apollo": "2.5.8",
+    "react-dom": "16.8.6",
+    "react-router-dom": "5.0.1",
     "react-scripts": "3.0.1",
-    "yup": "^0.27.0"
+    "yup": "0.27.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -42,8 +42,8 @@
     ]
   },
   "devDependencies": {
-    "dotenv": "^8.0.0",
-    "eslint-config-airbnb": "^17.1.0",
-    "husky": "^2.3.0"
+    "dotenv": "8.0.0",
+    "eslint-config-airbnb": "17.1.0",
+    "husky": "2.3.0"
   }
 }
