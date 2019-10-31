@@ -55,19 +55,16 @@ class RemoveDialog extends React.PureComponent {
       mutation deleteTrainee($id: String) {
         deleteTrainee(id: $id) {
           message
-          data {
-            id
-          }
         }
       }
     `;
 
     try {
-      const { res, error, loading } = await client.mutate({
+      const { data } = await client.mutate({
         mutation: DELETE_TRAINEE,
         variables: { id }
       });
-      snackBarOpen(res.data.deleteTrainee.message, "success");
+      snackBarOpen(data.deleteTrainee.message, "success");
     } catch (error) {
       snackBarOpen(error.message, "error");
     }

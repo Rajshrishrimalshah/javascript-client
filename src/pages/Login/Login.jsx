@@ -141,6 +141,7 @@ class SignIn extends Component {
   };
 
   handleSubmit = async event => {
+    console.log("INSIDE")
     const { email, password } = this.state;
     const { snackBarOpen, setItem } = this.props;
     this.setState({
@@ -148,13 +149,15 @@ class SignIn extends Component {
     });
     try {
       const res = await callApi({
-        url: process.env.REACT_APP_BASE_URL + process.env.REACT_APP_LOGIN_URL,
+        url: 'https://express-training.herokuapp.com/api/user/login',
         method: "post",
         data: {
           email,
           password
         }
       });
+
+      console.log('))))))))))))))))))))))', res);
       setItem("token", res.data.data);
       console.log("success", res.data.data);
       this.setState({
